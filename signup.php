@@ -42,11 +42,11 @@
 		
 		$mname = $_POST['mname'];
 		if(empty($_POST['mname'])){
-			$fnerr = "Middle Name cannot be left empty!";
+			$mnerr = "Middle Name cannot be left empty!";
 			$numoferr++;
 		}else{
 			if(!preg_match('/^[a-zA-Z]*$/',$mname)){
-				$fnerr = "Please enter valid middle name consisting of only alphabets";
+				$mnerr = "Please enter valid middle name consisting of only alphabets";
 				$numoferr++;
 			}
 		}
@@ -54,11 +54,11 @@
 		
 		$lname = $_POST['lname'];
 		if(empty($_POST['lname'])){
-			$fnerr = "Last Name cannot be left empty!";
+			$lnerr = "Last Name cannot be left empty!";
 			$numoferr++;
 		}else{
 			if(!preg_match('/^[a-zA-Z]*$/',$lname)){
-				$fnerr = "Please enter valid last name consisting of only alphabets";
+				$lnerr = "Please enter valid last name consisting of only alphabets";
 				$numoferr++;
 			}
 		}
@@ -77,11 +77,60 @@
 		//email validated
 		
 		$phone = $_POST['phone'];
+		if(empty($phone)){
+			$phoneerr = "Please enter your phone number";
+			$numoferr++;
+		}else{
+			if(!is_numeric($phone)){
+				$phoneerr = "Please enter valid phone number";
+				$numoferr++;
+			}
+		}
+		
 		$city = $_POST['city'];
+		if(empty($_POST['city'])){
+			$cityerr = "City Name cannot be left empty!";
+			$numoferr++;
+		}else{
+			if(!preg_match('/^[a-zA-Z]*$/',$city)){
+				$cityerr = "Please enter valid city name consisting of only alphabets";
+				$numoferr++;
+			}
+		}
+		
+		
 		$country = $_POST['country'];
+		if(empty($_POST['country'])){
+			$countryerr = "Country Name cannot be left empty!";
+			$numoferr++;
+		}else{
+			if(!preg_match('/^[a-zA-Z]*$/',$country)){
+				$countryerr = "Please enter valid country name consisting of only alphabets";
+				$numoferr++;
+			}
+		}
+		
+		
 		$addr = $_POST['add'];
+		if(empty($_POST['add'])){
+			$countryerr = "Address field cannot be left empty!";
+			$numoferr++;
+		}
+		
+		
 		$cardNum = $_POST['card'];
+		if(empty($_POST['card'])){
+			$countryerr = "Card number field cannot be left empty!";
+			$numoferr++;
+		}
+		
+		
 		$dateofexp = $_POST['dateofexp'];
+		if(empty($_POST['dateofexp'])){
+			$countryerr = "Date field cannot be left empty!";
+			$numoferr++;
+		}
+		
 		
 		if(isset($_POST['typeofcard']) && $_POST['typeofcard'] == "credit")
 			$typeofcard = "credit";
@@ -107,7 +156,7 @@
 			.column {
 			  float: left;
 			  padding: 10px;
-			  height: 230%; /* Should be removed. Only for demonstration */
+			  height: 240%; 
 			}
 
 			.left, .right {
@@ -127,7 +176,7 @@
 			}
 			
 			.error{ 
-				color:red;
+				color:#B30000;
 			}
 			
 			body{
