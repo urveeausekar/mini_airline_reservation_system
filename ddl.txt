@@ -1,0 +1,82 @@
+create database ars;
+use ars;
+create table user(
+user_id varchar(50),
+firstname varchar(50) not null,
+middle name varchar(50),
+lastname varchar(50) not null,
+email varchar(50) not null,
+phone_no  integer(10),
+address varchar(500),
+city varchar(100),
+country varchar(100),
+primary key user_id);
+
+create table userownscard(
+user_id varchar(50),
+card_number integer(16) ,
+type varchar(50),
+expiry_date date,
+primary key card_number,
+foreign key user_id references user(user_id) );
+
+create table userbooksflight(
+user_id varchar(50),
+plane_id varchar(50),
+date date not null,
+src varchar(100),
+dest varchar(100),
+dept_time time,
+primary key( user_id, plane_id, date, src, dest, dept_time),
+foreign key (plane_id, date, src, dest, ddept_time) references flight(plane_id,  date, src, dest, dept_time));
+
+create table flight(
+plane_id varchar(50),
+date date not null,
+src varchar(100),
+dest varchar(100),
+dept_time time,
+arr_time time,
+no_of_passengers integer,
+primary key (plane_id, date, src, dest,dept_time on delete set  null),
+foreign key(plane_id) references airplane(plane_id) on delete set null,
+foreign key (src,dest) references airport(a_id, a_id) on delete set null
+check (dept_time < arr_time) );
+
+create table airplane(
+plane_id varchar(50) not null,
+tot_capacity integer,
+business integer,
+economy integer,
+primary key (plane_id));
+
+create table airport(
+a_id varchar(50),
+city varchar(100),
+country varchar(100),
+primary key (a_id));
+
+create table route_via(
+plane_id varchar(50),
+a_id varchar(50),
+seq_no integer,
+time_in time,
+time_out time,
+foreign key (a_id) references airport(a_id) on delete set null ,
+foreign key (plane_id) references airplane(plane_id) on delete cascade,
+check (time_in < time_out));
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
