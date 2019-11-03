@@ -18,7 +18,7 @@
 			.column {
 			  float: left;
 			  padding: 10px;
-			  height: 100%; /* Should be removed. Only for demonstration */
+			  height: 100%; 
 			}
 
 			.left, .right {
@@ -94,34 +94,9 @@
 		    
 		  </div>
 		  <div class="column middle" style="background-color:#ccc;">
-		  	<h1>WELCOME TO YOUR AIRLINE RESERVATIONS PROVIDER!!</h1>
-			New user? Then <a href = "/var/www/html/myfiles/DBMSmp/signup.php">sign up!</a><br><br>
-			<b>Or Sign In</b><br>
-			<fieldset>
-				<legend></legend>
-				LoginId <input type = "text" name = "loginid "><br><br>
-				Password <input type = "password" name = "passkey" ><br><br>
-				<input type = "submit" name = "submit" value = "Log In"><br><br>
-			</fieldset>
-			<br><br><br><br>
-			<a href = "/var/www/html/myfiles/DBMSmp/browseflights.php">BROWSE FLIGHTS</a>
-			<br><br><br><br>
+		  	<h1>Please click on BOOK button to book a flight.</h1>
+		  	<span class = "error">Please note that you have to be logged in to book a flight</span><br><br>
+		  	<!--<a href = "/var/www/html/myfiles/DBMSmp/loginpage.php">Log In</a> -->
+			
 			
 		   
-		  </div>
-		  <div class="column right" style="background-color:#000000;">
-		    
-		   
-		  </div>
-		</div>
-		
-		<p>
-			<b><u>Airline Reservation System</u>
-			made by
-			Urvee Ausekar  111713007 and 
-			Tejaswini Kokate  111703075
-			</b>
-		</p>
-	
-	</body>
-</html>

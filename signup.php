@@ -15,18 +15,18 @@
 	$passerr = " ";
 	$numoferr = 0;
 	
-	$fname = " ";
-	$mname = " ";
-	$lname = " ";
-	$email = " ";
-	$phone = " ";
-	$city = " ";
-	$country = " ";
-	$addr = " ";
-	$cardNum = " ";
-	$dateofexp = " ";
-	$uname = " ";
-	$passw = " ";
+	$fname = NULL;
+	$mname = NULL;
+	$lname = NULL;
+	$email = NULL;
+	$phone = NULL;
+	$city = NULL;
+	$country = NULL;
+	$addr = NULL;
+	$cardNum = NULL;
+	$dateofexp = NULL;
+	$uname = NULL;
+	$passw = NULL;
 	if(isset($_POST['submit'])){
 		$fname = $_POST['fname'];
 		if(empty($_POST['fname'])){
@@ -113,21 +113,21 @@
 		
 		$addr = $_POST['add'];
 		if(empty($_POST['add'])){
-			$countryerr = "Address field cannot be left empty!";
+			$addrerr = "Address field cannot be left empty!";
 			$numoferr++;
 		}
 		
 		
 		$cardNum = $_POST['card'];
 		if(empty($_POST['card'])){
-			$countryerr = "Card number field cannot be left empty!";
+			$cardNumerr = "Card number field cannot be left empty!";
 			$numoferr++;
 		}
 		
 		
 		$dateofexp = $_POST['dateofexp'];
 		if(empty($_POST['dateofexp'])){
-			$countryerr = "Date field cannot be left empty!";
+			$dateerr = "Date field cannot be left empty!";
 			$numoferr++;
 		}
 		
@@ -138,6 +138,18 @@
 			$typeofcard = "debit";
 		else
 			$rderr = "You must select a type of card!";
+			
+			
+		$uname = $_POST['uname'];
+		if(empty($_POST['uname'])){
+			$uerr = "Please enter your username";
+			$numoferr++;
+		}
+		
+		$passw = $_POST['passkey'];
+		if(empty($_POST['passkey'])){
+			$passerr = "Please enter a valid password";
+		}
 	}
 ?>
 
@@ -156,7 +168,7 @@
 			.column {
 			  float: left;
 			  padding: 10px;
-			  height: 240%; 
+			  height: 260%; 
 			}
 
 			.left, .right {
@@ -279,7 +291,8 @@
 					
 					Type of Card : <br><br>
 					Credit Card <input type = "radio" name = "typeofcard" value = "credit"><br>
-					Debit Card <input type = "radio" name = "typeofcard" value = "debit"><br><br>
+					Debit Card <input type = "radio" name = "typeofcard" value = "debit"><br>
+					<span class = "error"><?php echo $rderr; ?></span><br><br>
 				</fieldset>
 				<br><br>
 				<input type = "submit" name = "submit" value = "Sign Up">
@@ -292,7 +305,8 @@
 					<span class = "error"> <?php echo $passerr; ?></span><br><br>
 				</fieldset>
 			</form>
-		   	
+		   	<a href = "/var/www/html/myfiles/DBMSmp/browseflights.php">BROWSE FLIGHTS</a><br><br>
+		   	<a href = "/var/www/html/myfiles/DBMSmp/welcomepage.php">BACK TO WELCOME PAGE</a>
 		  </div>
 		  <div class="column right" style="background-color:#000000;">
 		    
