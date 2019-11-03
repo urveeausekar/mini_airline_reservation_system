@@ -40,7 +40,8 @@ dest varchar(100),
 dept_time time,
 arr_time time,
 no_of_passengers integer,
-primary key (plane_id, date, src, dest,dept_time on delete set  null),
+cost float(7,3),
+primary key (plane_id, date, src, dest,dept_time),
 foreign key(plane_id) references airplane(plane_id) on delete set null,
 foreign key (src,dest) references airport(a_id, a_id) on delete set null
 check (dept_time < arr_time) );
@@ -68,6 +69,23 @@ time_out time,
 foreign key (a_id) references airport(a_id) on delete set null ,
 foreign key (plane_id) references airplane(plane_id) on delete cascade,
 check (time_in < time_out));
+
+
+CREATE TRIGGER inv_times BEFORE INSERT ON route_via
+  FOR EACH ROW
+    BEGIN
+      IF(new.time_in > time_out) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "incorrect timings";
+      END IF;
+    END;
+    
+CREATE TRIGGER inv_times_2 BEFORE INSERT ON flight
+  FOR EACH ROW
+    BEGIN
+      IF(new.dept_time > arr_time) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "incorrect timings";
+      END IF;
+    END;
 
 
 
