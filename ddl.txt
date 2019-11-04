@@ -28,22 +28,26 @@ plane_id varchar(50),
 date date not null,
 src varchar(100),
 dest varchar(100),
+src_country varchar(100),
+dest_country varchar(100),
 dept_time time,
-primary key( user_id, plane_id, date, src, dest, dept_time),
-foreign key (plane_id, date, src, dest, dept_time) references flight(plane_id,  date, src, dest, dept_time) on delete cascade);
+primary key( user_id, plane_id, date, src, dest, src_country, dest_country, dept_time),
+foreign key (plane_id, date, src, dest, src_country, dest_country, dept_time) references flight(plane_id,  date, src, dest, src_country, dest_country, dept_time) on delete cascade);
 
 create table flight(
 plane_id varchar(50),
 date date not null,
 src varchar(100),
 dest varchar(100),
+src_country varchar(100),
+dest_country varchar(100),
 dept_time time,
 arr_time time,
 no_of_passengers integer,
 cost float(7,3),
 primary key (plane_id, date, src, dest,dept_time),
 foreign key(plane_id) references airplane(plane_id) on delete set null,
-foreign key (src,dest) references airport(a_id, a_id) on delete set null
+foreign key (src,dest, src_country, dest_country) references airport(a_id, a_id, country, country) on delete set null
 check (dept_time < arr_time) );
 
 create table airplane(
@@ -86,6 +90,13 @@ CREATE TRIGGER inv_times_2 BEFORE INSERT ON flight
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "incorrect timings";
       END IF;
     END;
+
+
+create table password(
+user_id varchar(50),
+password_hash varchar(255),
+primary key (user_id),
+foreign key (user_id) references user(user_id));
 
 
 
