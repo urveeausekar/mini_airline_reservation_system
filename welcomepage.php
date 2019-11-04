@@ -1,5 +1,5 @@
 <?php
-
+//use hashes for passw
 ?>
 
 <html>
