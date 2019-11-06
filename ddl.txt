@@ -49,7 +49,7 @@ cost_business float(10,3),
 cost_economy float(10, 3),
 primary key (plane_id, date, src, dest, src_country, dest_country, dept_time),
 foreign key(plane_id) references airplane(plane_id) on delete set null,
-foreign key (src,dest, src_country, dest_country) references airport(a_id, a_id, country, country) on delete set null
+foreign key (src,dest, src_country, dest_country) references airport(a_id, a_id, country, country) on delete set null,
 check (dept_time < arr_time) );
 
 create table airplane(
