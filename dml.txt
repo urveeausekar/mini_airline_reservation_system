@@ -31,9 +31,9 @@ insert into airplane values("luftansa3", 85, 0, 85);
 insert into airplane values("indigo1", 100, 20, 80);
 insert into airplane values("airindia1", 100, 25, 75);
 
-insert into flight values("emirates1", "2019-01-01", "Mumbai", "Abu Dhabi", "India", "UAE", "india3", "uae1", "12:00:00", "15:00:00",0, 0, 10000.000, 6000.000);
-insert into flight values("indigo1", "2019-01-01", "Delhi", "New York", "India", "US", "india5", "us5", "01:30:00", "06:00:00", 0, 0, 50000.000, 35000.000);
-insert into flight values("airindia1", "2019-01-01", "Pune", "Nagpur", "India", "India", "india6", "india4", "05:00:00", "06:30:00",0, 0, 8000.000, 5000.000);
+insert into flight values("emirates1", "2019-01-01", "india3", "uae1", "India", "UAE",  "12:00:00", "15:00:00",0, 0, 10000.000, 6000.000);
+insert into flight values("indigo1", "2019-01-01", "india5", "us5", "India", "US", "01:30:00", "06:00:00", 0, 0, 50000.000, 35000.000);
+insert into flight values("airindia1", "2019-01-01", "india6", "india4", "India", "India", "05:00:00", "06:30:00",0, 0, 8000.000, 5000.000);
 
 
 insert into user("u1", "xyz", "lmn", "abc", "abcxyz@gmail.com", 1234567890, "shivaji nagar", "Pune", "India");
