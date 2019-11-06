@@ -1,12 +1,42 @@
 <?php
-//use hashes for passw
+	//declaring variables for error checking
+	$perr = " ";
+	$uerr = " ";
+	
+	$passw = NULL;
+	$uname = NULL;
+	$numoferr = 0;
+	if(isset($_POST['submit'])){
+		
+		
+		
+		$uname = $_POST['loginid'];
+		$passw = $_POST['passkey'];
+		if(empty($_POST['loginid'])){
+			echo "In empty uname";
+			$uerr = "Username can't be left empty!";
+			$numoferr++;
+		}
+		
+		if(empty($passw)){
+			$perr = "Password can't be left empty!";
+			$numoferr++;
+		}
+		
+	
+			//header("Location:http://localhost/myfiles/DBMSmp/adminlogin.php"); working like this;
+		
+	}
+	//echo "not exited";
 ?>
 
 <html>
 	<head>
 		<title>AirlineReservationSystem</title>
 		<style>
-		
+			.error{
+				color:#B30000;
+			}
 		
 			* {
 			  box-sizing: border-box;
@@ -55,7 +85,7 @@
 				background-color: #808080;
 				margin-left: auto;
   				margin-right: auto;
-  				width : 200px;
+  				width : 300px;
   				border-style: solid;
 				border-width: 2px;
 				border-radius: 8px;
@@ -95,16 +125,22 @@
 		  </div>
 		  <div class="column middle" style="background-color:#ccc;">
 		  	<h1>WELCOME TO YOUR AIRLINE RESERVATIONS PROVIDER!!</h1>
-			New user? Then <a href = "/var/www/html/myfiles/DBMSmp/signup.php">sign up!</a><br><br>
+			New user? Then <a href = "signup.php">sign up!</a><br><br>
 			<b>Or Sign In</b><br>
 			<fieldset>
-				<legend></legend>
-				LoginId <input type = "text" name = "loginid "><br><br>
-				Password <input type = "password" name = "passkey" ><br><br>
-				<input type = "submit" name = "submit" value = "Log In"><br><br>
+				<form method = "POST">
+					LoginId <input type = "text" name = "loginid" value ='<?php echo htmlentities($uname)?>'>
+			  		<span class = "error"> <?php echo $uerr; ?> </span> <br><br>
+					
+					
+					Password <input type = "password" name = "passkey" value ='<?php echo htmlentities($passw)?>'>
+					
+					<br><br>
+					<input type = "submit" name = "submit" value = "Log In"><br><br>
+				</form>
 			</fieldset>
 			<br><br><br><br>
-			<a href = "/var/www/html/myfiles/DBMSmp/browseflights.php">BROWSE FLIGHTS</a>
+			<a href = "browseflights.php">BROWSE FLIGHTS</a>
 			<br><br><br><br>
 			
 		   

@@ -151,6 +151,7 @@
 			$passerr = "Please enter a valid password";
 		}
 	}
+	//FIXME: connection left implement sessions and hash passwords.
 ?>
 
 <html>
@@ -305,8 +306,8 @@
 					<span class = "error"> <?php echo $passerr; ?></span><br><br>
 				</fieldset>
 			</form>
-		   	<a href = "/var/www/html/myfiles/DBMSmp/browseflights.php">BROWSE FLIGHTS</a><br><br>
-		   	<a href = "/var/www/html/myfiles/DBMSmp/welcomepage.php">BACK TO WELCOME PAGE</a>
+		   	<a href = "browseflights.php">BROWSE FLIGHTS</a><br><br>
+		   	<a href = "welcomepage.php">BACK TO WELCOME PAGE</a>
 		  </div>
 		  <div class="column right" style="background-color:#000000;">
 		    

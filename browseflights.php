@@ -1,10 +1,21 @@
 <?php
+	//FIXME: below is code for connection to db
+	/*include_once 'connect_to_db.php';
+	$conn = mysqli_connect($servername, $username, $password, $dbname);
+	//check connection
+	if($conn->connect_error){
+		die("Connection failed: " . $conn->connect_error);
+	}
+	*/
+	
+	
 	//declaring variable for checking errors
 	$fcityerr = " ";
 	$fconterr = " ";
 	$tcityerr = " ";
 	$tconterr = " ";
 	$derr = " ";
+	$nerr = " ";
 	$numoferr = 0;
 	//fetching variables 
 	$fromcity = NULL;
@@ -12,7 +23,8 @@
 	$fromcountry = NULL;
 	$tocountry = NULL;
 	$dateofflight = NULL;
-	
+	$number = NULL;
+	//also add number of tickets to book
 	if(isset($_POST['submit'])){
 		$fromcity = $_POST['srccity'];
 		
@@ -66,27 +78,71 @@
 			$derr = "Please enter date of flight";
 			$numoferr++;
 		}
-	}
+		
+		$number = $_POST['number'];
+		if(empty($number)){
+			$nerr = "Please enter number of tickets required";
+			$numoferr++;
+		}else if(!is_numeric($number) || int($number) < 0 ){
+			$nerr = "Please enter a valid positive integer.";
+			$numoferr++;
+		}
+		//FIXME:validation done connection to db left . use prepared statements
 	
-	/*
-		1.Now we have details needed to search the database. So open connection, use prepared statements and
-		search the database for flights as per data. 
-		2.Find number of flights found using $rowcount=mysqli_num_rows($result);. 
-		If num = 0, apologise. Else if num > 0 then;
-			make a dynamic page called flights.php in the following way:
-				1. copy file filghtsprefix.php to flights.php using copy. 
-				2. Now write every row of query result in its own form .
-				   The form input type = text should have no borders (see https://stackoverflow.com/questions/12255198/hide-border-in-html-form-or-input) and
-				   should have 1 book button (submit button with name book).
-				3. Now copy contents of file flightsuffix.php using file_put_contents and flag append
-				4. Now redirect to this flights.php. see https://stackoverflow.com/questions/353803/redirect-to-specified-url-on-php-script-completion
-				
-				5. Now user should be able to see all options here. When user presses book, check if 
-				   they are logged in. If not logged in, make them log in.
-				   Once they are logged in, take them to payment gateway. 
-				6. Once they pay, take them to their user page and show details of booked flights there.
 	
+		/*
+			1.Now we have details needed to search the database. So open connection, use prepared statements and
+			search the database for flights as per data. 
+			2.Find number of flights found using $rowcount=mysqli_num_rows($result);. 
+			If num = 0, apologise. Else if num > 0 then;
+				make a dynamic page called flights.php in the following way:
+					1. copy file filghtsprefix.php to flights.php using copy. 
+					2. Now write every row of query result in its own form .
+					   The form input type = text should have no borders (see https://stackoverflow.com/questions/12255198/hide-border-in-html-form-or-input) and
+					   should have 1 book button (submit button with name book).
+					3. Now copy contents of file flightsuffix.php using file_put_contents and flag append
+					4. Now redirect to this flights.php. see https://stackoverflow.com/questions/353803/redirect-to-specified-url-on-php-script-completion
+					
+					5. Now user should be able to see all options here. When user presses book, check if 
+					   they are logged in. If not logged in, make them log in.
+					   Once they are logged in, take them to payment gateway. 
+					6. Once they pay, take them to their user page and show details of booked flights there.
+		
+		*/
+		//FIXME:starting to prep for making query into db
+		/*
+		$fromcity = mysqli_real_escape_string($conn, $fromcity);
+		$tocity = mysqli_real_escape_string($conn, $tocity);
+		$fromcountry = mysqli_real_escape_string($conn, $fromcountry);
+		$tocountry = mysqli_real_escape_string($conn, $tocountry);
+		$dateofflight = mysqli_real_escape_string($conn, $dateofflight);
+		$number = mysqli_real_escape_string($conn, $number);
+		
+		//for insertion use prepared statements	
+		*
+		
+		$rowcount = 5; //say. just for now.
+		//$rowcount = mysqli_num_rows($result);
+		
+		if($rowcount == 0){
+			echo"We apologise, but we have no flights suiting your current requirements at the moment.";
+		}else{
+			$src = "/var/www/html/myfiles/DBMSmp/flightsprefix.php";
+			$dest = "/var/www/html/myfiles/DBMSmp/flights.php";
+			copy($src, $dest);
+			
+			while($row = mysqli_fetch_assoc($result)) {
+        			$plane_id = row['plane_id'];
+        			$
+        			echo"-------------------------------------------------"
+        			$str = '<input type = "text" name = "plane_id" value = echo ';
+    			}
+		}
+		
 	*/
+	}
+		
+	//$conn->close();
 ?>
 
 
@@ -201,7 +257,9 @@
 		  		<span class = "error"> <?php echo $tconterr; ?></span><br><br>
 		  		
 		  		Date : <input type = "date" name = "dateofflight" value ='<?php echo htmlentities($dateofflight)?>'>
-		  		<span class = "error"> <?php echo $derr; ?></span><br><br>
+		  		<span class = "error"> <?php echo $derr; ?> </span><br><br>
+		  		
+		  		Number of tickets wanted : <input type = "text" name = "number" value ='<?php echo htmlentities($number) ?> '>
 		  		
 		  		<input type = "submit" name = "submit" value = "Submit!">
 		  		
@@ -226,3 +284,14 @@
 	
 	</body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
