@@ -32,14 +32,14 @@ insert into airplane values("indigo1", 100, 20, 80);
 insert into airplane values("airindia1", 100, 25, 75);
 insert into airplane values("airbus1", 300, 75, 225);
 
-insert into flight values("emirates1", "2019-01-01", "india3", "uae1", "India", "UAE",  "12:00:00", "15:00:00",0, 0, 10000.000, 6000.000);
-insert into flight values("indigo1", "2019-01-01", "india5", "us5", "India", "US", "01:30:00", "06:00:00", 0, 0, 50000.000, 35000.000);
-insert into flight values("airindia1", "2019-01-01", "india6", "india4", "India", "India", "05:00:00", "06:30:00",0, 0, 8000.000, 5000.000);
-insert into flight values("emirates2", "2019-01-02", "germany1", "russia1", "Germany", "Russia", "10:00:00", "03:15:00", 0, 0, 9500.000, 6000.000);
-insert into flight values("luftansa1", "2019-01-03", "india5", "cn1", "India", "Canada", "00:30:00","15:30:00", 0, 0, 80000.000, 50000.000);
-insert into flight values("luftansa3", "2019-01-04", "india4", "uk1", "India", "UK", "05:55:00", "20:00:00", 0, 0, 50000.000, 25000.000);
-insert into flight values("airbus1", "2019-01-01", "us3", "cn2", "US", "Canada", "02:00:00", "05:30:00", 0, 0, 10000.000, 4500.000);
-insert into flights values("indigo1", "2019-01-02", "germany3", "india3", "Germany" ,"India", "07:20:00". "14:50:00", 0, 0, 80000.000, 45000.000);
+insert into flight values("emirates1", "2019-01-01", "india3", "uae1",  "12:00:00", "15:00:00",0, 0, 10000.000, 6000.000);
+insert into flight values("indigo1", "2019-01-01", "india5", "us5", "01:30:00", "06:00:00", 0, 0, 50000.000, 35000.000);
+insert into flight values("airindia1", "2019-01-01", "india6", "india4","05:00:00", "06:30:00",0, 0, 8000.000, 5000.000);
+insert into flight values("emirates2", "2019-01-02", "germany1", "russia1",  "10:00:00", "03:15:00", 0, 0, 9500.000, 6000.000);
+insert into flight values("luftansa1", "2019-01-03", "india5", "cn1", "00:30:00","15:30:00", 0, 0, 80000.000, 50000.000);
+insert into flight values("luftansa3", "2019-01-04", "india4", "uk1", "05:55:00", "20:00:00", 0, 0, 50000.000, 25000.000);
+insert into flight values("airbus1", "2019-01-01", "us3", "cn2",  "02:00:00", "05:30:00", 0, 0, 10000.000, 4500.000);
+insert into flights values("indigo1", "2019-01-02", "germany3", "india3",  "07:20:00". "14:50:00", 0, 0, 80000.000, 45000.000);
 
 
 insert into user values("u1", "xyz", "lmn", "abc", "abcxyz@gmail.com", 1234567890, "shivaji nagar", "Pune", "India");
@@ -58,7 +58,8 @@ insert into route_via("emirates2", "germany2", 1, "12:00:00", "12:30:00");
 insert into route_via("emirates2", "russia1", 2, "03:15:00", NULL);
 
 
-
+insert into userownscard("u1", 0987654321123456, "Debit", "2025-09-10");
+insert into userownscard("u2", 1234567890098765, "Credit", "2027-10-20");
 
 
  

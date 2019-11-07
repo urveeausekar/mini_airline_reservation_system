@@ -28,19 +28,15 @@ plane_id varchar(50),
 date date not null,
 src varchar(50),
 dest varchar(50),
-src_country varchar(100),
-dest_country varchar(100),
 dept_time time,
-primary key( user_id, plane_id, date, src, dest, src_country, dest_country, dept_time),
-foreign key (plane_id, date, src, dest, src_country, dest_country, dept_time) references flight(plane_id,  date, src, dest, src_country, dest_country, dept_time) on delete cascade);
+primary key( user_id, plane_id, date, src, dest,  dept_time),
+foreign key (plane_id, date, src, dest,  dept_time) references flight(plane_id,  date, src, dest, dept_time) on delete cascade);
 
 create table flight(
 plane_id varchar(50),
 date date not null,
 src varchar(50),
 dest varchar(50),
-src_country varchar(100),
-dest_country varchar(100),
 dept_time time,
 arr_time time,
 no_of_passengers_business integer,
