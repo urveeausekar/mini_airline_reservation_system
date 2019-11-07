@@ -46,7 +46,16 @@ insert into user values("u1", "xyz", "lmn", "abc", "abcxyz@gmail.com", 123456789
 insert into user values("u2", "pqr", "stu", "vwx", "pqr@gmail.com", 0987654321, "bandra east", "Mumbai", "India");
 
 
-insert into route_via("")
+insert into route_via("emirates1", "india3", 0, NULL, "12:00:00");
+insert into route_via("emirates1", "india5", 1, "3:30:00", "4:00:00");
+insert into route_via("emirates1", "uae1", 2, "15:00:00", NULL);
+insert into route_via("indigo1", "india5", 0, NULL, "01:30:00");
+insert into route_via("indigo1", "us5", 1, "06:00:00", NULL);
+insert into route_via("airindia1", "india6", 0, NULL, "05:00:00");
+insert into route_via("airindia1", "india4", 1, "06:30:00", NULL);
+insert into route_via("emirates2", "germany1", 0, NULL, "10:00:00");
+insert into route_via("emirates2", "germany2", 1, "12:00:00", "12:30:00");
+insert into route_via("emirates2", "russia1", 2, "03:15:00", NULL);
 
 
 
