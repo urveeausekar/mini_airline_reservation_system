@@ -39,7 +39,7 @@ insert into flight values("emirates2", "2019-01-02", "germany1", "russia1",  "10
 insert into flight values("luftansa1", "2019-01-03", "india5", "cn1", "00:30:00","15:30:00", 0, 0, 80000.000, 50000.000);
 insert into flight values("luftansa3", "2019-01-04", "india4", "uk1", "05:55:00", "20:00:00", 0, 0, 50000.000, 25000.000);
 insert into flight values("airbus1", "2019-01-01", "us3", "cn2",  "02:00:00", "05:30:00", 0, 0, 10000.000, 4500.000);
-insert into flights values("indigo1", "2019-01-02", "germany3", "india3",  "07:20:00". "14:50:00", 0, 0, 80000.000, 45000.000);
+insert into flight values("indigo1", "2019-01-02", "germany3", "india3",  "07:20:00", "14:50:00", 0, 0, 80000.000, 45000.000);
 
 
 insert into user values("u1", "xyz", "lmn", "abc", "abcxyz@gmail.com", 1234567890, "shivaji nagar", "Pune", "India");
