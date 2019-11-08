@@ -33,7 +33,7 @@ primary key( user_id, plane_id, date, src, dest,  dept_time),
 foreign key (plane_id, date, src, dest,  dept_time) references flight(plane_id,  date, src, dest, dept_time) on delete cascade);
 
 create table flight(
-plane_id varchar(50),
+plane_id varchar(50) not null,
 date date not null,
 src varchar(50),
 dest varchar(50),
@@ -44,8 +44,9 @@ no_of_passengers_economy integer,
 cost_business float(10,3),
 cost_economy float(10, 3),
 primary key (plane_id, date, src, dest,  dept_time),
-foreign key(plane_id) references airplane(plane_id) on delete set null,
-foreign key (src,dest) references airport(a_id, a_id) on delete set null,
+foreign key(plane_id) references airplane(plane_id) on delete cascade,
+foreign key (src) references airport(a_id) on delete cascade,
+foreign key (dest) references airport(a_id) on delete cascade,
 check (dept_time < arr_time) );
 
 create table airplane(
