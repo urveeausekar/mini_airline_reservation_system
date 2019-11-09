@@ -5,14 +5,14 @@ use ars;
 create table user(
 user_id varchar(50),
 firstname varchar(50) not null,
-middle name varchar(50),
+middlename varchar(50),
 lastname varchar(50) not null,
 email varchar(50) not null,
 phone_no  integer(10) not null,
 address varchar(500),
 city varchar(100) not null,
 country varchar(100) not null,
-primary key user_id);
+primary key (user_id));
 
 create table userownscard(
 user_id varchar(50),
@@ -78,7 +78,7 @@ delimiter $
 CREATE TRIGGER inv_times BEFORE INSERT ON route_via
   FOR EACH ROW
     BEGIN
-      IF(new.time_in > time_out) THEN
+      IF(new.time_in > new.time_out) THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "incorrect timings";
       END IF;
     END;
@@ -86,7 +86,7 @@ CREATE TRIGGER inv_times BEFORE INSERT ON route_via
 CREATE TRIGGER inv_times_2 BEFORE INSERT ON flight
   FOR EACH ROW
     BEGIN
-      IF(new.dept_time > arr_time) THEN
+      IF(new.dept_time > new.arr_time) THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "incorrect timings";
       END IF;
     END;
