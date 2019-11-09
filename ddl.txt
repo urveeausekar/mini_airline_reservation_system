@@ -16,7 +16,7 @@ primary key (user_id));
 
 create table userownscard(
 user_id varchar(50),
-card_number integer(16) not null,
+card_number varchar(16) not null,
 type varchar(50),
 expiry_date date,
 primary key (card_number),
