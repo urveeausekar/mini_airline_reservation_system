@@ -25,16 +25,16 @@ foreign key (user_id) references user(user_id) on delete cascade);
 create table userbooksflight(
 user_id varchar(50),
 plane_id varchar(50),
-date date not null,
+dateofflight date not null,
 src varchar(50),
 dest varchar(50),
 dept_time time,
-primary key( user_id, plane_id, date, src, dest,  dept_time),
-foreign key (plane_id, date, src, dest,  dept_time) references flight(plane_id,  date, src, dest, dept_time) on delete cascade);
+primary key( user_id, plane_id, dateofflight, src, dest,  dept_time),
+foreign key (plane_id, dateofflight, src, dest,  dept_time) references flight(plane_id,  dateofflight, src, dest, dept_time) on delete cascade);
 
 create table flight(
 plane_id varchar(50) not null,
-date date not null,
+dateofflight date not null,
 src varchar(50),
 dest varchar(50),
 dept_time time,
@@ -43,7 +43,7 @@ no_of_passengers_business integer,
 no_of_passengers_economy integer,
 cost_business float(10,3),
 cost_economy float(10, 3),
-primary key (plane_id, date, src, dest,  dept_time, arr_time),
+primary key (plane_id, dateofflight, src, dest,  dept_time, arr_time),
 foreign key(plane_id) references airplane(plane_id) on delete cascade,
 foreign key (src) references airport(a_id) on delete cascade,
 foreign key (dest) references airport(a_id) on delete cascade,
