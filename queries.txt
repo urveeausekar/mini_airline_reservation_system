@@ -1,0 +1,43 @@
+//add flight
+
+
+
+$insert_flight = "insert into flight values("$plane_id", "$dateofflight", (select a_id from airport where a_name ="$src_airport_name"), (select a_id from airport where a_name = "$dest_airport_name"), "$dept_time", "$arr_time", $passengers_business, $passengers_economy, $cost_business, $cost_economy)";
+
+
+/*browse flights
+
+
+$flights_obtained = "select * from flight where src IN (select a_id from airport where city = "$fromcity" and country = "$fromcountry") and dest IN (select a_id from airport where city = "$tocity" and country = "$tocountry") and dateofflight = "$dateofflight""; */
+
+
+
+//cancel booking
+
+$userid = "select user_id from user where firstname = "$fname" and middlename = "$mname" and lastname = "$lname"";
+
+$src_airport_id = "select src from flight where plane_id = "$plane_id" and date = "$f2_date" and dept_time = "$dept_time" ";
+$dest_airport_id = "select dest from flight where plane_id = "$plane_id" and date = "$f2_date" and dept_time = "$dept_time" ";
+
+
+$cancel_booking = "delete from userbooksflight where user_id IN (select user_id from user where firstname = "$fname" and middlename = "$mname" and lastname = "$lname") and plane_id = "$plane_id" and dateofflight = "$date" and dept_time = "$dept_time"";
+
+//cancel flight
+
+
+$cancel_flight = "delete from flight where plane_id = "$plane_id" and src IN(select a_id from airport where a_name = "$srcap")  and dest IN(select a_id from airport where a_name "$destap") and dateofflight = "$date" and dept_time = "$dept_time"";
+
+
+//view bookings
+
+ "select count(user_id) as seats_booked from userbooksflight where plane_id= "$plane_id" and date = "$date" and dept_time = "$dept_time" and typeofseat = "$typeofseat" ";
+
+"select * from user where user_id IN (select user_id from userbooksflight where plane_id = "$plane_id" and date = "$date" and dept_time = "$dept_time")";
+
+
+//query for whether seats are available or not
+
+
+
+
+
