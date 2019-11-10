@@ -1,0 +1,57 @@
+//add flight
+
+
+$src_id = "select a_id from airport where a_name ="$src_airport_name"";
+$dest_id = "select a_id from airport where a_name = "$dest_airport_name"";
+
+$f_date = date('Y-m-d', strtotime($date));
+
+$insert_flight = "insert into flight values("$plane_id", "$f_date", "$srccity", "$destcity", "$srccountry", "$destcountry", "$src_id", "$dest_id", "$dept_time", "$arr_time", $passengers_business, $passengers_economy, $cost_business, $cost_economy)";
+
+
+//browse flights
+
+$src_airport_id = "select a_id from airport where city = "$fromcity" and country = "$fromcountry"" ;
+$dest_airport_id = "select a_id from airport where city = "$tocity" and country = "$tocountry""; 
+
+$f1_date = date('Y-m-d', strtotime($dateofflight));
+
+$flights_obtained = "select * from flight where src = "$src_airport_id" and dest = "$dest_airport_id" and dateofflight = "$f1_date"";
+
+
+
+//cancel booking
+
+$userid = "select user_id from user where firstname = "$fname" and middlename = "$mname" and lastname = "$lname"";
+
+$src_airport_id = "select src from flight where plane_id = "$plane_id" and date = "$f2_date" and dept_time = "$dept_time" ";
+$dest_airport_id = "select dest from flight where plane_id = "$plane_id" and date = "$f2_date" and dept_time = "$dept_time" ";
+
+$f2_date = date('Y-m-d', strtotime($date));
+
+$cancel_booking = "delete from userbooksflight where user_id = "userid" and plane_id = "$plane_id" and dateofflight = "$f2_date" and src = "$src_airport_id" and dest = "$dest_airport_id" and dept_time = "$dept_time"";
+
+//cancel flight
+
+$src_id = "select a_id from airport where a_name = "$srcap"";
+$dest_id = "select a_id from airport where a_name "$destap"";
+
+$f3_date = date('Y-m-d', strtotime($date));
+
+$cancel_flight = "delete from flight where plane_id = "$plane_id" and src = "$src_id" and dest = "$dest_id" and dateofflight = "$f3_date"";
+
+
+//view bookings
+
+ "select count(user_id) as seats_booked from userbooksflight where plane_id= "$plane_id" and date = "$date" and dept_time = "$dept_time" ";
+
+"select * from user where user_id IN (select user_id from userbooksflight where plane_id = "$plane_id" and date = "$date" and dept_time = "$dept_time")";
+
+
+
+
+
+
+
+
+
