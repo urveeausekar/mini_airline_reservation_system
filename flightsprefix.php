@@ -1,5 +1,16 @@
 <?php
-
+	session_start();
+	include_once 'include_ars_db.php';
+	$i = $_SESSION['numberofflights'];
+	for($j = 0; $j < $i; $j++){
+		if(isset($_POST[$j]){
+			if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == "yes"){
+				
+			}else{
+				header("Location:http://localhost/myfiles/DBMSmp/welcomepage.php");
+			}
+		}
+	}
 ?>
 
 <html>
@@ -98,5 +109,8 @@
 		  	<span class = "error">Please note that you have to be logged in to book a flight</span><br><br>
 		  	<!--<a href = "/var/www/html/myfiles/DBMSmp/loginpage.php">Log In</a> -->
 			
+			<form method = "POST">
 			
 		   
+
+

@@ -182,6 +182,8 @@
 				<span class = "error"><?php echo $success; ?></span>
 			</form>
 			</fieldset>
+			<a href = "logout.php">LOG OUT</a><br><br>
+			<a href = "adminlogin.php"> BACK TO ADMIN PAGE</a><br><br>
 		  </div>
 		  <div class="column right" style="background-color:#000000;">
 		    

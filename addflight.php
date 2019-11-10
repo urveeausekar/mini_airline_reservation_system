@@ -1,4 +1,5 @@
 <?php
+	require_once 'include_ars_db.php';
 	$adminid = " ";
 	
 	$pliderr = " ";
@@ -9,11 +10,20 @@
 	$dconterr = " ";
 	$timeerr = " ";
 	$rderr = " ";
+	$atimeerr = " ";
+	$ceerr = " ";
+	$beerr = " ";
+	$saerr = " ";
+	$daerr = " ";
 	/*$fnerr = " ";
 	$mnerr = " ";
 	$lnerr = " ";*/
-	$numoferr = 0;
 	
+	$notify = " ";
+	
+	$numoferr = 0;
+	$sa = NULL;
+	$da = NULL;
 	$plane_id = NULL;
 	$date = NULL;
 	$srccity = NULL;
@@ -21,6 +31,9 @@
 	$srccountry = NULL;
 	$destcountry = NULL;
 	$dept_time = NULL;
+	$arr_time = NULL;
+	$ce = NULL;
+	$be = NULL;
 	/*$fname = NULL;
 	$mname = NULL;
 	$lname = NULL;*/
@@ -35,6 +48,10 @@
 		$srccountry = $_POST['srccountry'];
 		$destcountry = $_POST['destcountry'];
 		$dept_time = $_POST['dept_time'];
+		$arr_time = $_POST['arr_time'];
+		$ce = $_POST['ce'];
+		$be = $_POST['be'];
+		
 		if(empty($plane_id)){
 			$pliderr = "Can't leave plane id empty.";
 			$numoferr++;
@@ -42,6 +59,9 @@
 		
 		if(empty($date)){
 			$dateerr = "Please fill date field.";
+			$numoferr++;
+		}else if(strlen($dateofflight) != 10){
+			$dateerr = "Please enter date in the prescribed format only. Use '-' as a separator";
 			$numoferr++;
 		}
 		
@@ -92,14 +112,57 @@
 			$timeerr = "Please fill departure time";
 			$numoferr++;
 		}
-		else if(!preg_match('/^[a-zA-Z1-9:]*$/',$dept_time)){
+		else if(!preg_match("/^(?:2[0-4]|[01][1-9]|10):([0-5][0-9]):([0-5][0-9])$/",$dept_time)){
 			$timeerr = "Please enter valid time";
 			$numoferr++;
 		}
 		
+		if(empty($arr_time)){
+			$atimeerr = "Please fill departure time";
+			$numoferr++;
+		}
+		else if(!preg_match("/^(?:2[0-4]|[01][1-9]|10):([0-5][0-9]):([0-5][0-9])$/",$arr_time)){
+			$atimeerr = "Please enter valid time";
+			$numoferr++;
+		}
 		
+		if(empty($ce)){
+			$ceerr = "Please fill cost for economy.";
+			$numoferr++;
+		}else if(!is_numeric($ce)){
+			$ceerr = "Please enter valid cost";
+			$numoferr++;
+		}
+		
+		if(empty($be)){
+			$beerr = "Please fill cost for business.";
+			$numoferr++;
+		}else if(!is_numeric($be)){
+			$beerr = "Please enter valid cost";
+			$numoferr++;
+		}
+		
+		if(empty($sa)){
+			$saerr = "Please enter source airport name";
+			$numoferr++;
+		}
+		
+		if(empty($da)){
+			$daerr = "Please enter source airport name";
+			$numoferr++;
+		}
+		
+		if($numoferr == 0){
+			
+			$addf = "insert into flight values('$plane_id', '$dateofflight', (select a_id from airport where a_name ='$sa'), (select a_id from airport where a_name = '$da'), '$dept_time', '$arr_time', 0, 0, '$cb', '$ce')";
+			
+			$res = $conn->query($addf);
+			if($res)
+				$notify = "Insertion Done!";
+		}
 		
 	}
+	$conn->close();
 	
 	
 	
@@ -201,16 +264,18 @@
 		    
 		  </div>
 		  <div class="column middle" style="background-color:#ccc;">
-		  	<h1>CANCEL FLIGHTS</h1>
+		  	<h1>ADD FLIGHTS</h1>
 				<br><br>
+				<span class = "error">All</span> details must be entered.<br><br>
 				
 			<fieldset>
 			<form method = "POST">
 				
 				Plane ID :<input type = "text" name = "plane_id" value ='<?php echo htmlentities($plane_id)?>'>
 				<span class = "error"> <?php echo $pliderr; ?></span><br><br>
-					
-				Date :<input type = "date" name = "date" value ='<?php echo htmlentities($date)?>'>
+				
+				<span class = "error">Please enter date in format yyyy-mm-dd</span><br>	
+				Date :<input type = "text" name = "date" value ='<?php echo htmlentities($date)?>'>
 				<span class = "error"> <?php echo $dateerr; ?></span><br><br>
 				
 				Source City :<input type = "text" name = "srccity" value ='<?php echo htmlentities($srccity)?>'>
@@ -228,9 +293,30 @@
 				Departure Time :<input type = "text" name = "dept_time"value ='<?php echo htmlentities($dept_time)?>'>
 				<span class = "error"> <?php echo $timeerr; ?></span><br><br>
 				
-				<input type = "submit" name = "submit1" value = "Cancel Flight" >
+				Arrival Time :<input type = "text" name = "arr_time"value ='<?php echo htmlentities($arr_time)?>'>
+				<span class = "error"> <?php echo $atimeerr; ?></span><br><br>
+				
+				Cost_Economy :<input type = "text" name = "ce" value = '<?php echo htmlentities($ce)?>'>
+				<span class = "error"> <?php echo $ceerr; ?></span><br><br>
+				
+				
+				Cost_Business :<input type = "text" name = "be" value = '<?php echo htmlentities($be)?>'>
+				<span class = "error"> <?php echo $ceerr; ?></span><br><br>
+				
+				SrcAirport:<input type = "text" name = "sa" value = '<?php echo htmlentities($sa)?>'>
+				<span class = "error"> <?php echo $saerr; ?></span><br><br>
+				
+				DestAirport:<input type = "text" name = "da" value = '<?php echo htmlentities($da)?>'>
+				<span class = "error"> <?php echo $daerr; ?></span><br><br>
+				
+				<input type = "submit" name = "submit1" value = "Add Flight" >
+				
+				<h2><?php echo $notify;?></h2>
 			</form>
 			<br><br>
+			</fieldset><br><br>
+			<a href = "logout.php">LOG OUT</a><br><br>
+			<a href = "adminlogin.php"> BACK TO ADMIN PAGE</a><br><br>
 			
 		  </div>
 		  <div class="column right" style="background-color:#000000;">

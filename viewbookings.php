@@ -23,7 +23,7 @@
 	
 	$rd1 = " ";
 	$rd2 = " ";
-	
+	$result = " ";
 	
 	
 	if(isset($_POST['submit1'])){
@@ -41,6 +41,9 @@
 		
 		if(empty($date)){
 			$dateerr = "Please fill date field.";
+			$numoferr++;
+		}else if(strlen($date) != 10){
+			$dateerr = "Please enter date in the prescribed format only. Use '-' as a separator";
 			$numoferr++;
 		}
 		
@@ -91,7 +94,7 @@
 			$timeerr = "Please fill departure time";
 			$numoferr++;
 		}
-		else if(!preg_match('/^[a-zA-Z1-9:]*$/',$dept_time)){
+		else if(!preg_match("/^(?:2[0-4]|[01][1-9]|10):([0-5][0-9]):([0-5][0-9])$/",$dept_time)){
 			$timeerr = "Please enter valid time";
 			$numoferr++;
 		}
@@ -107,6 +110,27 @@
 			$numoferr++;
 		}
 		
+		if($numoferr == 0){
+			if($rd2 == "checked"){
+				$q = "select * from user where user_id IN (select user_id from userbooksflight where plane_id = '$plane_id' and date = '$date' and dept_time = '$dept_time')";
+				$res = $conn->query($q);
+				if(!$res){
+					while($row = $res->fetch_assoc()){
+						$result = $result." ".$row['fname']." ".$row['mname']." ".$row['lname']."<br><br>";
+					}
+				}
+
+			}else if($rd1 == "checked"){
+				$q = "select count(user_id) as seats_booked from userbooksflight where plane_id= '$plane_id' and date = '$date' and dept_time = '$dept_time' and typeofseat = '$typeofseat';";
+				$res = $conn->query($q);
+				if(!$res){
+					$row = $res->fetch_assoc();
+					$output1 = $row['seats_booked'];
+					$result = "The number of seats booked is $output1";
+				}
+
+			}
+		}
 		
 	}
 	
@@ -217,13 +241,14 @@
 				<a href = "/var/www/html/myfiles/DBMSmp/">Cancel A Booking</a><br><br><br><br>
 				<a href = "/var/www/html/myfiles/DBMSmp/">Cancel Flight Bookings</a><br><br><br><br>
 				<a href = "/var/www/html/myfiles/DBMSmp/">Add Another Admin</a><br><br><br><br>-->
-			<h3><u>View Details of a Particular Flight</u><br> Number of Seats Booked<br>Names of Passengers on Flight</h3>
+			<h3><u>View Details of a Particular Flight</u><br> Number of Seats Booked<br>Names of Passengers on Flight</h3><br><br>
+			<span class = "error">All</span> details must be entered.<br><br>
 			<fieldset>
 			<form method = "POST">
 				Plane ID :<input type = "text" name = "plane_id" value ='<?php echo htmlentities($plane_id)?>'>
 				<span class = "error"> <?php echo $pliderr; ?></span><br><br>
-					
-				Date :<input type = "date" name = "date" value ='<?php echo htmlentities($date)?>'>
+				<span class = "error">Please enter date in format yyyy-mm-dd</span><br>	
+				Date :<input type = "text" name = "date" value ='<?php echo htmlentities($date)?>'>
 				<span class = "error"> <?php echo $dateerr; ?></span><br><br>
 				
 				Source City :<input type = "text" name = "srccity" value ='<?php echo htmlentities($srccity)?>'>
@@ -244,9 +269,15 @@
 				Number of Seats Booked :<input type = "radio" name = "rd" value = "seats" <?php echo $rd1; ?>><br><br>
 				All Passengers on a Flight :<input type = "radio" name = "rd" value = "passengers" <?php echo $rd2; ?>><br><br>
 				<span class = "error"><?php echo $rderr ; ?></span><br><br><br>
-				<input type = "submit" name = "submit1" value = "View" >
+				<input type = "submit" name = "submit1" value = "View" ><br>
 			</form>
+			</fieldset>
+			
 			<br><br>
+			<?php echo $result; ?>
+			<br><br>
+			<a href = "logout.php">LOG OUT</a><br><br>
+			<a href = "adminlogin.php"> BACK TO ADMIN PAGE</a><br><br>
 			
 		  </div>
 		  <div class="column right" style="background-color:#000000;">

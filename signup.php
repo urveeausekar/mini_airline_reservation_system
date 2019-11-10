@@ -136,7 +136,7 @@
 		if(empty($_POST['dateofexp'])){
 			$dateerr = "Date field cannot be left empty!";
 			$numoferr++;
-		}if(strlen($dateofexp) != 10){
+		}else if(strlen($dateofexp) != 10){
 			$dateerr = "Please enter date in the prescribed format only. Use '-' as a separator";
 			$numoferr++;
 		}

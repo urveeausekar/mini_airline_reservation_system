@@ -1,13 +1,8 @@
 <?php
-	//FIXME: below is code for connection to db
-	/*include_once 'connect_to_db.php';
-	$conn = mysqli_connect($servername, $username, $password, $dbname);
-	//check connection
-	if($conn->connect_error){
-		die("Connection failed: " . $conn->connect_error);
-	}
-	*/
+	session_start();
+	include_once 'include_ars_db.php';
 	
+	$notification = " ";
 	
 	//declaring variable for checking errors
 	$fcityerr = " ";
@@ -77,7 +72,11 @@
 		if(empty($_POST['dateofflight'])){
 			$derr = "Please enter date of flight";
 			$numoferr++;
+		}else if(strlen($dateofflight) != 10){
+			$dateerr = "Please enter date in the prescribed format only. Use '-' as a separator";
+			$numoferr++;
 		}
+		
 		
 		$number = $_POST['number'];
 		if(empty($number)){
@@ -109,37 +108,86 @@
 					6. Once they pay, take them to their user page and show details of booked flights there.
 		
 		*/
-		//FIXME:starting to prep for making query into db
-		/*
-		$fromcity = mysqli_real_escape_string($conn, $fromcity);
-		$tocity = mysqli_real_escape_string($conn, $tocity);
-		$fromcountry = mysqli_real_escape_string($conn, $fromcountry);
-		$tocountry = mysqli_real_escape_string($conn, $tocountry);
-		$dateofflight = mysqli_real_escape_string($conn, $dateofflight);
-		$number = mysqli_real_escape_string($conn, $number);
+	
+		
+		$fromcity = $conn->real_escape_string($fromcity);
+		$tocity = $conn->real_escape_string($tocity);
+		$fromcountry = $conn->real_escape_string($fromcountry);
+		$tocountry = $conn->real_escape_string($tocountry);
+		$dateofflight = $conn->real_escape_string($dateofflight);
+		$number = $conn->real_escape_string($number);
 		
 		//for insertion use prepared statements	
-		*
+		$findflights =  "select * from flight where src in(select a_id from airport where city = '$fromcity' and country = '$fromcountry') and dest in (select a_id from airport where city = '$tocity' and country = '$tocountry') and dateofflight = '$dateofflight';";
 		
-		$rowcount = 5; //say. just for now.
-		//$rowcount = mysqli_num_rows($result);
+		$res = $conn->query($findflights);
 		
-		if($rowcount == 0){
-			echo"We apologise, but we have no flights suiting your current requirements at the moment.";
+		if($res->num_rows == 0){
+			$notification = "We apologise, but we have no flights suiting your current requirements at the moment.";
 		}else{
-			$src = "/var/www/html/myfiles/DBMSmp/flightsprefix.php";
-			$dest = "/var/www/html/myfiles/DBMSmp/flights.php";
-			copy($src, $dest);
-			
-			while($row = mysqli_fetch_assoc($result)) {
-        			$plane_id = row['plane_id'];
-        			$
-        			echo"-------------------------------------------------"
-        			$str = '<input type = "text" name = "plane_id" value = echo ';
+			$src = "flightsprefix.php";
+			$dest = "flights.php";
+			if(!copy($src, $dest)){
+				echo "Sorry, file not copied properly";
+			}
+			$i = 1;
+			$fp = fopen("flights.php", "a");
+			if(!$fp)
+				echo"unable to write to file";
+			while($i <= $res->num_rows) {
+        			$row = $res->fetch_assoc();
+        			$planeid = $row['plane_id'];
+        			$depttime = $row['dept_time'];
+        			$arrtime = $row['arr_time'];
+        			$costB = $row['cost_business'];
+        			$costE = $row['cost_economy'];
+        			$src = $row['src'];
+        			$dest = $row['dest'];
+        			
+        			fwrite($fp,$i."<br>");
+        			fwrite($fp, "-----------------------------------------------------------------------------"."<br>");
+        			$st1 = "PlaneID : <input style = 'border:none' type = 'text' name = 'plane_id' value = $row[plane_id] ><br><br>";
+        			$st2 = "Departure Time : <input style = 'border:none' type = 'text' name = 'depttime' value = $row[dept_time]><br><br>";
+        			$st3 = "Arrival Time : <input style = 'border:none' type = 'text' name = 'arrtime' value = $row[arr_time]><br><br>";
+        			$st4 = "Cost of Busines seats is Rs. $row[cost_business]. <br> Cost of economy seats is Rs. $row[cost_economy] .<br>";
+        			$st5 = "<input type = 'hidden' name = 'src' value = $row[src]>";
+        			$st6 = "<input type = 'hidden' name = 'dest' value = $row[dest]>";
+        			$st7 = "Economy :<input type = 'radio' name = 'rd' value = 'E'><br>";
+        			$st8 = "Business :<input type = 'radio' name = 'rd' value = 'B'><br>";
+        			$st9 = "<input type = 'submit' name = '$i' value = 'Book!'><br>";
+        			/*echo $st1;
+        			echo $st2;
+        			echo $st3;
+        			echo $st4;
+        			echo $st5;
+        			echo $st6;
+        			echo $st7;
+        			echo $st8;
+        			echo $st9;*/
+        			fwrite($fp, $st1);
+        			fwrite($fp, $st2);
+        			fwrite($fp, $st3);
+        			fwrite($fp, $st4);
+        			fwrite($fp, $st5);
+        			fwrite($fp, $st6);
+        			fwrite($fp, $st7);
+        			fwrite($fp, $st8);
+        			fwrite($fp, $st9);
+        	
+        			$i++; 
+        			fwrite($fp, "-----------------------------------------------------------------------------------"."<br><br>");
     			}
+    			$_SESSION['numberofflights'] = $i - 1;
+    			
+    			fclose($fp);
+    			$file = 'flightssuffix.php';
+			// Open the file to get existing content
+			$current = file_get_contents($file);
+			file_put_contents("flights.php", $current, FILE_APPEND);
+    			header("Location:http://localhost/myfiles/DBMSmp/flights.php");
 		}
 		
-	*/
+	
 	}
 		
 	//$conn->close();
@@ -256,12 +304,15 @@
 		  		To Country : <input type = "text" name = "destncountry" value ='<?php echo htmlentities($tocountry)?>'>
 		  		<span class = "error"> <?php echo $tconterr; ?></span><br><br>
 		  		
-		  		Date : <input type = "date" name = "dateofflight" value ='<?php echo htmlentities($dateofflight)?>'>
+		  		<span class = "error">Please enter date in format yyyy-mm-dd</span><br>
+		  		Date : <input type = "text" name = "dateofflight" value ='<?php echo htmlentities($dateofflight)?>'>
 		  		<span class = "error"> <?php echo $derr; ?> </span><br><br>
 		  		
 		  		Number of tickets wanted : <input type = "text" name = "number" value ='<?php echo htmlentities($number) ?> '>
 		  		
 		  		<input type = "submit" name = "submit" value = "Submit!">
+		  		<br>
+		  		<?php echo $notification;?>
 		  		
 		  	</form>
 			</fieldset>

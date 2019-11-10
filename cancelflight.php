@@ -1,4 +1,6 @@
 <?php
+	
+	include_once 'include_ars_db.php';
 	$adminid = " ";
 	
 	$pliderr = " ";
@@ -16,6 +18,7 @@
 	$lnerr = " ";*/
 	$numoferr = 0;
 	
+	$notify = " ";
 	$plane_id = NULL;
 	$date = NULL;
 	$srccity = NULL;
@@ -49,6 +52,9 @@
 		
 		if(empty($date)){
 			$dateerr = "Please fill date field.";
+			$numoferr++;
+		}else if(strlen($date) != 10){
+			$dateerr = "Please enter date in the prescribed format only. Use '-' as a separator";
 			$numoferr++;
 		}
 		
@@ -99,21 +105,31 @@
 			$timeerr = "Please fill departure time";
 			$numoferr++;
 		}
-		else if(!preg_match('/^[a-zA-Z1-9:]*$/',$dept_time)){
+		else if(!preg_match("/^(?:2[0-4]|[01][1-9]|10):([0-5][0-9]):([0-5][0-9])$/",$dept_time)){
 			$timeerr = "Please enter valid time";
 			$numoferr++;
 		}
 		
 		if(empty($srcap)){
 			$srcaperr = "Please fill source airport";
+			$numoferr++;
 		}
 		
 		if(empty($destap)){
 			$destaperr = "Please fill destination airport";
+			$numoferr++;
 		}
 		
 		
+		if($numoferr == 0){
+			$cancel_flight = "delete from flight where plane_id = '$plane_id' and src IN (select a_id from airport where a_name = '$srcap' and city = '$srccity' and country = '$srccountry' )  and dest IN(select a_id from airport where a_name '$destap' and city = '$destcity' and country = '$destcountry') and dateofflight = '$date' and dept_time = '$dept_time'";
+			$res = $conn->query($cancel_flight);
+			if($res)
+				$notify = "Deletion Done!";
+		}
+		
 	}
+	$conn->close();
 	
 	
 	
@@ -217,14 +233,14 @@
 		  <div class="column middle" style="background-color:#ccc;">
 		  	<h1>CANCEL FLIGHTS</h1>
 				<br><br>
-				
+			<span class = "error">All</span> details must be entered.<br><br>	
 			<fieldset>
 			<form method = "POST">
 				
 				Plane ID :<input type = "text" name = "plane_id" value ='<?php echo htmlentities($plane_id)?>'>
 				<span class = "error"> <?php echo $pliderr; ?></span><br><br>
-					
-				Date :<input type = "date" name = "date" value ='<?php echo htmlentities($date)?>'>
+				<span class = "error">Please enter date in format yyyy-mm-dd</span><br>	
+				Date :<input type = "text" name = "date" value ='<?php echo htmlentities($date)?>'>
 				<span class = "error"> <?php echo $dateerr; ?></span><br><br>
 				
 				Source City :<input type = "text" name = "srccity" value ='<?php echo htmlentities($srccity)?>'>
@@ -248,10 +264,13 @@
 				Departure Time :<input type = "text" name = "dept_time"value ='<?php echo htmlentities($dept_time)?>'>
 				<span class = "error"> <?php echo $timeerr; ?></span><br><br>
 				
-				<input type = "submit" name = "submit1" value = "Cancel Flight" >
+				<input type = "submit" name = "submit1" value = "Cancel Flight" ><br><br>
 			</form>
+			<h2><?php echo $notify;?></h2>
 			<br><br>
-			
+			</fieldset>
+			<a href = "logout.php">LOG OUT</a><br><br>
+			<a href = "adminlogin.php"> BACK TO ADMIN PAGE</a><br><br>
 		  </div>
 		  <div class="column right" style="background-color:#000000;">
 		    

@@ -1,4 +1,5 @@
 <?php
+	include_once 'include_ars_db.php';
 	$adminid = " ";
 	
 	$pliderr = " ";
@@ -12,7 +13,10 @@
 	$fnerr = " ";
 	$mnerr = " ";
 	$lnerr = " ";
+	$srcaperr = " ";
+	$destaperr = " ";
 	$numoferr = 0;
+	$notify = " ";
 	
 	$plane_id = NULL;
 	$date = NULL;
@@ -24,7 +28,8 @@
 	$fname = NULL;
 	$mname = NULL;
 	$lname = NULL;
-	
+	$srcap = NULL;
+	$destap = NULL;
 	
 	
 	if(isset($_POST['submit1'])){
@@ -42,6 +47,9 @@
 		
 		if(empty($date)){
 			$dateerr = "Please fill date field.";
+			$numoferr++;
+		}else if(strlen($date) != 10){
+			$dateerr = "Please enter date in the prescribed format only. Use '-' as a separator";
 			$numoferr++;
 		}
 		
@@ -92,7 +100,7 @@
 			$timeerr = "Please fill departure time";
 			$numoferr++;
 		}
-		else if(!preg_match('/^[a-zA-Z1-9:]*$/',$dept_time)){
+		else if(!preg_match("/^(?:2[0-4]|[01][1-9]|10):([0-5][0-9]):([0-5][0-9])$/",$dept_time)){
 			$timeerr = "Please enter valid time";
 			$numoferr++;
 		}
@@ -133,6 +141,23 @@
 		}
 		//last name validated
 		
+		if(empty($srcap)){
+			$srcaperr = "Please fill source airport";
+			$numoferr++;
+		}
+		
+		if(empty($destap)){
+			$destaperr = "Please fill destination airport";
+			$numoferr++;
+		}
+		
+		if($numoferr == 0){
+			$cancel_booking = "delete from userbooksflight where user_id IN (select user_id from user where firstname = '$fname' and middlename = '$mname' and lastname = '$lname') and plane_id = '$plane_id' and dateofflight = '$date' and dept_time = '$dept_time' and src IN (select a_id from airport where a_name = '$srcap' and city = '$srccity' and country = '$srccountry' )  and dest IN(select a_id from airport where a_name '$destap' and city = '$destcity' and country = '$destcountry')";
+			$res = $conn->query($cancel_booking);
+			if($res)
+				$notify = "Deletion Done!";
+
+		}
 		
 	}
 	
@@ -236,14 +261,15 @@
 		    
 		  </div>
 		  <div class="column middle" style="background-color:#ccc;">
-		  	<h1>VIEW DETAILS OF BOOKED FLIGHTS</h1>
+		  	<h1>CANCEL BOOKINGS</h1>
 				<br><br>
 				<!--user_id, plane_id, date, src, dest, src_country, dest_country, dept_time)
 				<a href = "/var/www/html/myfiles/DBMSmp/">View Flight Bookings</a><br><br><br><br>
 				<a href = "/var/www/html/myfiles/DBMSmp/">Cancel A Booking</a><br><br><br><br>
 				<a href = "/var/www/html/myfiles/DBMSmp/">Cancel Flight Bookings</a><br><br><br><br>
 				<a href = "/var/www/html/myfiles/DBMSmp/">Add Another Admin</a><br><br><br><br>-->
-			<h3>CANCEL BOOKING OF A PARTICULAR USER ON A PARTICULAR FLIGHT</h3>
+			<h3>CANCEL BOOKING OF A PARTICULAR USER ON A PARTICULAR FLIGHT</h3><br>
+			<span class = "error">All</span> details must be entered.<br><br>
 			<fieldset>
 			<form method = "POST">
 				First Name : <input type = "text" name = "fname" value ='<?php echo htmlentities($fname)?>'>
@@ -257,8 +283,8 @@
 				
 				Plane ID :<input type = "text" name = "plane_id" value ='<?php echo htmlentities($plane_id)?>'>
 				<span class = "error"> <?php echo $pliderr; ?></span><br><br>
-					
-				Date :<input type = "date" name = "date" value ='<?php echo htmlentities($date)?>'>
+				<span class = "error">Please enter date in format yyyy-mm-dd</span><br>		
+				Date :<input type = "text" name = "date" value ='<?php echo htmlentities($date)?>'>
 				<span class = "error"> <?php echo $dateerr; ?></span><br><br>
 				
 				Source City :<input type = "text" name = "srccity" value ='<?php echo htmlentities($srccity)?>'>
@@ -275,11 +301,20 @@
 				
 				Departure Time :<input type = "text" name = "dept_time"value ='<?php echo htmlentities($dept_time)?>'>
 				<span class = "error"> <?php echo $timeerr; ?></span><br><br>
+				To Airport : <input type = "text" name = "destap" value ='<?php echo htmlentities($destap)?>'>
+				<span class = "error"> <?php echo $destaperr; ?></span><br><br>
+				
+				From Airport : <input type = "text" name = "srcap" value ='<?php echo htmlentities($srcap)?>'>
+				<span class = "error"> <?php echo $srcaperr; ?></span><br><br>
 				
 				<input type = "submit" name = "submit1" value = "Cancel Booking" >
 			</form>
 			<br><br>
+			</fieldset><br>
+			<h2><?php echo $notify;?></h2><br><br>
 			
+			<a href = "logout.php">LOG OUT</a><br><br>
+			<a href = "adminlogin.php"> BACK TO ADMIN PAGE</a><br><br>
 		  </div>
 		  <div class="column right" style="background-color:#000000;">
 		    
