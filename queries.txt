@@ -14,11 +14,6 @@ $flights_obtained = "select * from flight where src IN (select a_id from airport
 
 //cancel booking
 
-$userid = "select user_id from user where firstname = "$fname" and middlename = "$mname" and lastname = "$lname"";
-
-$src_airport_id = "select src from flight where plane_id = "$plane_id" and date = "$f2_date" and dept_time = "$dept_time" ";
-$dest_airport_id = "select dest from flight where plane_id = "$plane_id" and date = "$f2_date" and dept_time = "$dept_time" ";
-
 
 $cancel_booking = "delete from userbooksflight where user_id IN (select user_id from user where firstname = "$fname" and middlename = "$mname" and lastname = "$lname") and plane_id = "$plane_id" and dateofflight = "$date" and dept_time = "$dept_time"";
 
