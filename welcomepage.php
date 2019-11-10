@@ -1,17 +1,23 @@
 <?php
+	include_once 'include_ars_db.php';
+	session_start();
+	
 	//declaring variables for error checking
+	
 	$perr = " ";
 	$uerr = " ";
 	
 	$passw = NULL;
 	$uname = NULL;
 	$numoferr = 0;
+	
+	$loginmsg = " ";
 	if(isset($_POST['submit'])){
-		
-		
 		
 		$uname = $_POST['loginid'];
 		$passw = $_POST['passkey'];
+		
+		
 		if(empty($_POST['loginid'])){
 			echo "In empty uname";
 			$uerr = "Username can't be left empty!";
@@ -23,11 +29,51 @@
 			$numoferr++;
 		}
 		
+		$uname = $conn->real_escape_string($uname);
+		$gethash_user = "select password_hash from password where user_id = '$uname';";
+		//"select password_hash from password where user_id = '$uname';";
+		$gethash_admin = "select password_hash from admin where admin_id = '$uname';";
+		
+		//check if person who wants to login is user
+		$res = $conn->query($gethash_user);
+		//printf("Error message: %s\n", $conn->error);
+		if($res){
+			$row = $res->fetch_assoc();
+			//printf("Error message: %s\n", $conn->error);
+			$passw_hash = $row["password_hash"];
+			if(password_verify($passw, $passw_hash)){
+				//log the user in
+				$loginmsg = "Welcome, ".$uname."!";
+				$_SESSION['userid'] = $uname;
+				$_SESSION['loggedin'] = "yes";
+				$_SESSION['type'] = "user";
+				header("Location:http://localhost/myfiles/DBMSmp/userlogin.php");
+			}
+		}
+		
+		
+		$res->free();
+		//check if person who wants to login is admin
+		$res = $conn->query($gethash_admin);
+		if($res){
+			$row = $res->fetch_assoc();
+			$passw_hash = $row["password_hash"];
+			if(password_verify($passw, $passw_hash)){
+				//log the admin in
+				echo "Verified admin login, passw matches";
+				$loginmsg = "Welcome, ".$uname."!";
+				$_SESSION['userid'] = $uname;
+				$_SESSION['loggedin'] = "yes";
+				$_SESSION['type'] = "admin";
+				header("Location:http://localhost/myfiles/DBMSmp/adminlogin.php");
+			}
+		}
+		$loginmsg = "Invalid login id or password. Please try again.";
 	
-			//header("Location:http://localhost/myfiles/DBMSmp/adminlogin.php"); working like this;
+			// working like this;
 		
 	}
-	//echo "not exited";
+	$conn->close();
 ?>
 
 <html>
@@ -137,6 +183,7 @@
 					
 					<br><br>
 					<input type = "submit" name = "submit" value = "Log In"><br><br>
+					<span class = "error"><?php echo $loginmsg; ?></span>
 				</form>
 			</fieldset>
 			<br><br><br><br>

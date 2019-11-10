@@ -1,7 +1,12 @@
 <?php
+	include_once 'include_ars_db.php';
+	
 	$newpasserr = " ";
 	$newuerr = " ";
+	$success = " ";
+	$notification = " ";
 	
+	$inserterr = 0;
 	$newpasskey = NULL;
 	$newuname = NULL;
 	$numoferr = 0;
@@ -18,7 +23,43 @@
 			$newpasserr = "Please enter a valid password";
 			$numoferr++;
 		}
+		if($numoferr == 0){
+			$newuname = $conn->real_escape_string($newuname);
+			
+			$check_unique_unameuser = "select * from user where user_id = '$newuname';";
+			$check_unique_unameadmin = "select * from admin where admin_id = '$newuname';";
+				
+			$result = $conn->query($check_unique_unameuser);
+			
+			if($result->num_rows == 0){
+				$result = $conn->query($check_unique_unameadmin);
+				if($result->num_rows == 0){
+					//then insert admin data in to table called admin in database;
+					
+					$passw_hash = password_hash($newpasskey, PASSWORD_DEFAULT); //hashed password
+					
+					$insertp = "insert into admin values('$newuname', '$passw_hash');";
+					
+					if($conn->query($insertp) == False)
+						$inserterr++;
+					else
+						
+						$notification = "Successfully saved data!";
+				}
+				else 
+					$success = "Please choose another userid. The one that you hvae chosen has been taken.";
+			}
+			else
+				$success = "Please choose another userid. The one that you hvae chosen has been taken.";
+		
+		
+		}
+		else
+			$success = "Please fill the entire form as per specifications.";		
+		
 	}
+	
+	$conn->close();
 ?>
 <html>
 	<head>
@@ -128,7 +169,8 @@
 			<!--Code to add another admin--------------------------------------------->
 			
 			</fieldset>
-			<h3>Add Another Admin</h3>
+			<h3>Add Another Admin</h3><br>
+			<h2><?php echo $notification; ?></h2><br>
 			<fieldset>
 			<form method = "POST">
 				Username : <input type = "text" name = "newuname" value ='<?php echo htmlentities($newuname)?>'> 
@@ -137,6 +179,7 @@
 				Password : <input type = "password" name = "newpasskey" value ='<?php echo htmlentities($newpasskey)?>'> 
 				<span class = "error"> <?php echo $newpasserr; ?></span><br><br><br>
 				<input type = "submit" name = "submit2" value = "Add" ><br>
+				<span class = "error"><?php echo $success; ?></span>
 			</form>
 			</fieldset>
 		  </div>

@@ -1,12 +1,19 @@
 <?php
-	$adminid = " ";
+	include_once 'include_ars_db.php';
+	session_start();
+	$adminid = $_SESSION['userid'];
+	
+	$conn->close();
+	
 ?>
 
 <html>
 	<head>
 		<title>AirlineReservationSystem</title>
 		<style>
-		
+			.error{
+				color:#B30000;
+			}
 		
 			* {
 			  box-sizing: border-box;
@@ -14,11 +21,14 @@
 
 			.row{
 				text-align: center;
+				/*overflow: hidden;
+				display: flex;*/
 			}
 			.column {
 			  float: left;
 			  padding: 10px;
-			  height: 100%; 
+			  height: 100%;
+			   
 			}
 
 			.left, .right {
@@ -55,7 +65,7 @@
 				background-color: #808080;
 				margin-left: auto;
   				margin-right: auto;
-  				width : 200px;
+  				width : 450px;
   				border-style: solid;
 				border-width: 2px;
 				border-radius: 8px;
@@ -96,12 +106,12 @@
 		  <div class="column middle" style="background-color:#ccc;">
 		  	<h1>WELCOME TO THE ADMIN PAGE, @<?php echo $adminid;?></h1>
 				<br><br>
-				<!--user_id, plane_id, date, src, dest, src_country, dest_country, dept_time)-->
-				<a href = "/var/www/html/myfiles/DBMSmp/">View Flight Bookings</a><br><br><br><br>
-				<a href = "/var/www/html/myfiles/DBMSmp/">Cancel A Booking</a><br><br><br><br>
-				<a href = "/var/www/html/myfiles/DBMSmp/">Cancel Flight Bookings</a><br><br><br><br>
-				<a href = "/var/www/html/myfiles/DBMSmp/">Add Another Admin</a><br><br><br><br>
-		
+				
+				<a href = "viewbookings.php">View Flight Booking Details of Users</a><br><br><br><br>
+				<a href = "cancelbooking.php">Cancel A Booking</a><br><br><br><br>
+				<a href = "cancelflight.php">Cancel A Flight</a><br><br><br><br>
+				<a href = "addflight.php">Add A Flight</a><br><br><br><br>
+				<a href = "addadmin.php">Add Another Admin</a><br><br><br><br>
 			
 		  </div>
 		  <div class="column right" style="background-color:#000000;">

@@ -9,6 +9,8 @@
 	$dconterr = " ";
 	$timeerr = " ";
 	$rderr = " ";
+	$srcaperr = " ";
+	$destaperr = " ";
 	/*$fnerr = " ";
 	$mnerr = " ";
 	$lnerr = " ";*/
@@ -21,6 +23,8 @@
 	$srccountry = NULL;
 	$destcountry = NULL;
 	$dept_time = NULL;
+	$srcap = NULL;
+	$destap = NULL;
 	/*$fname = NULL;
 	$mname = NULL;
 	$lname = NULL;*/
@@ -35,6 +39,9 @@
 		$srccountry = $_POST['srccountry'];
 		$destcountry = $_POST['destcountry'];
 		$dept_time = $_POST['dept_time'];
+		$destap = $_POST['destap'];
+		$srcap = $_POST['srcap'];
+		
 		if(empty($plane_id)){
 			$pliderr = "Can't leave plane id empty.";
 			$numoferr++;
@@ -97,6 +104,13 @@
 			$numoferr++;
 		}
 		
+		if(empty($srcap)){
+			$srcaperr = "Please fill source airport";
+		}
+		
+		if(empty($destap)){
+			$destaperr = "Please fill destination airport";
+		}
 		
 		
 	}
@@ -219,11 +233,17 @@
 				Destination City :<input type = "text" name = "destcity" value ='<?php echo htmlentities($destcity)?>'>
 				<span class = "error"> <?php echo $dcityerr; ?></span><br><br>
 				
+				From Airport : <input type = "text" name = "srcap" value ='<?php echo htmlentities($srcap)?>'>
+				<span class = "error"> <?php echo $srcaperr; ?></span><br><br>
+				
 				Source Country :<input type = "text" name = "srccountry" value ='<?php echo htmlentities($srccountry)?>'>
 				<span class = "error"> <?php echo $sconterr; ?></span><br><br>
 				
 				Destination Country :<input type = "text" name = "destcountry"value ='<?php echo htmlentities($destcountry)?>'>
 				<span class = "error"> <?php echo $dconterr; ?></span><br><br>
+				
+				To Airport : <input type = "text" name = "destap" value ='<?php echo htmlentities($destap)?>'>
+				<span class = "error"> <?php echo $destaperr; ?></span><br><br>
 				
 				Departure Time :<input type = "text" name = "dept_time"value ='<?php echo htmlentities($dept_time)?>'>
 				<span class = "error"> <?php echo $timeerr; ?></span><br><br>

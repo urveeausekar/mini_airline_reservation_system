@@ -1,4 +1,7 @@
 <?php
+	
+	require_once 'include_ars_db.php';
+	
 	//declaring variables for error checking
 	$fnerr = " ";
 	$mnerr = " ";
@@ -15,6 +18,10 @@
 	$passerr = " ";
 	$numoferr = 0;
 	
+	$inserterr = 0; //to count insert errors
+	$success = " ";
+	
+	//variables collected from form
 	$fname = NULL;
 	$mname = NULL;
 	$lname = NULL;
@@ -129,6 +136,9 @@
 		if(empty($_POST['dateofexp'])){
 			$dateerr = "Date field cannot be left empty!";
 			$numoferr++;
+		}if(strlen($dateofexp) != 10){
+			$dateerr = "Please enter date in the prescribed format only. Use '-' as a separator";
+			$numoferr++;
 		}
 		
 		
@@ -149,16 +159,77 @@
 		$passw = $_POST['passkey'];
 		if(empty($_POST['passkey'])){
 			$passerr = "Please enter a valid password";
+			$numoferr++;
 		}
+	
+		if($numoferr == 0){
+			$fname = $conn->real_escape_string($fname);
+			$mname = $conn->real_escape_string($mname);
+			$lname = $conn->real_escape_string($lname);
+			$email = $conn->real_escape_string($email);
+			$phone = $conn->real_escape_string($phone);
+			$city = $conn->real_escape_string($city);
+			$country = $conn->real_escape_string($country);
+			$addr = $conn->real_escape_string($addr);
+			$cardNum = $conn->real_escape_string($cardNum);
+			$dateofexp = $conn->real_escape_string($dateofexp);
+			$uname = $conn->real_escape_string($uname);
+			//escaped all input except pass
+			
+			$check_unique_unameuser = "select * from user where user_id = '$uname';";
+			$check_unique_unameadmin = "select * from admin where admin_id = '$uname';";
+			
+			$result = $conn->query($check_unique_unameuser);
+			
+			if($result->num_rows == 0){
+				$result = $conn->query($check_unique_unameadmin);
+				if($result->num_rows == 0){
+					//then insert user data in database;
+					$insert = "insert into user values('$uname','$fname', '$mname', '$lname', '$email', '$phone', '$addr', '$city', '$country');";
+					if($conn->query($insert) == False)
+						$inserterr++;
+						//do somethin
+						
+					//now inserting userid and password into password table
+					
+					$passw_hash = password_hash($passw, PASSWORD_DEFAULT); //hashed password
+					
+					$insertp = "insert into password values('$uname', '$passw_hash');";
+					
+					if($conn->query($insertp) == False)
+						$inserterr++;
+						
+					//now inserting payment details
+					$insertc = "insert into userownscard values('$uname', '$cardNum', '$typeofcard',  '$dateofexp');";
+					if($conn->query($insertc) == False)
+						$inserterr++;
+						
+					if($inserterr == 0)
+						$success = "Congratulations! You have successfully signed up!";
+				}
+			}
+			else{
+				$success = "Please choose another userid. The one that you hvae chosen has been taken.";
+			}
+		}else{
+			$success = "Please enter all fields as per specifications";
+		}
+		
+		
+		$conn->close();
 	}
-	//FIXME: connection left implement sessions and hash passwords.
+	//FIXME: implement sessions
+	
+	
 ?>
 
 <html>
 	<head>
 		<title>SignUp</title>
 		<style>
-		
+			.nofification{
+				font-size: large;
+			}
 			* {
 			  box-sizing: border-box;
 			}
@@ -259,7 +330,7 @@
 					Middle Name : <input type = "text" name = "mname" value ='<?php echo htmlentities($mname)?>'> 
 					<span class = "error"> <?php echo $mnerr; ?> </span><br><br>
 					
-					Lase Name : <input type = "text" name = "lname" value ='<?php echo htmlentities($lname)?>'> 
+					Last Name : <input type = "text" name = "lname" value ='<?php echo htmlentities($lname)?>'> 
 					<span class = "error"> <?php echo $lnerr; ?> </span><br><br>
 					
 					Email Address : <input type = "text" name = "email" value ='<?php echo htmlentities($email)?>'> 
@@ -275,7 +346,7 @@
 					<span class = "error"> <?php echo $cityerr; ?> </span><br><br>
 					
 					Address : <br>
-					<textarea name = "add" cols = "50" rows = "4" value ='<?php echo htmlentities($addr)?>' placeholder = "Input your address here"> </textarea>
+					<textarea name = "add" cols = "50" rows = "4" value ='<?php echo htmlentities($addr)?>'> </textarea>
 					<span class = "error"> <?php echo $addrerr; ?></span><br><br>
 					
 				</fieldset>
@@ -286,8 +357,8 @@
 				
 					Credit or Debit Card Number : <input type = "text" name = "card" value ='<?php echo htmlentities($cardNum)?>'> 
 					<span class = "error"> <?php echo $cardNumerr; ?></span><br><br>
-					
-					Date of Expiry : <input type = "date" name = "dateofexp" value ='<?php echo htmlentities($dateofexp)?>'> 
+					<span class = "error">Please enter date in format yyyy-mm-dd</span><br>
+					Date of Expiry : <input type = "text" name = "dateofexp" value ='<?php echo htmlentities($dateofexp)?>'> 
 					<span class = "error"> <?php echo $dateerr; ?></span><br><br>
 					
 					Type of Card : <br><br>
@@ -296,7 +367,7 @@
 					<span class = "error"><?php echo $rderr; ?></span><br><br>
 				</fieldset>
 				<br><br>
-				<input type = "submit" name = "submit" value = "Sign Up">
+				
 				<h3>Login Id and Password</h3>
 				<fieldset>
 					Username : <input type = "text" name = "uname" value ='<?php echo htmlentities($uname)?>'> 
@@ -305,6 +376,9 @@
 					Password : <input type = "password" name = "passkey" value ='<?php echo htmlentities($passw)?>'> 
 					<span class = "error"> <?php echo $passerr; ?></span><br><br>
 				</fieldset>
+				
+				<br><br><input type = "submit" name = "submit" value = "Sign Up"><br>
+				<span class = "notification"><?php echo $success; ?></span><br><br>
 			</form>
 		   	<a href = "browseflights.php">BROWSE FLIGHTS</a><br><br>
 		   	<a href = "welcomepage.php">BACK TO WELCOME PAGE</a>

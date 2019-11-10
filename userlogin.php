@@ -1,8 +1,11 @@
 <?php
-	$userid = " ";  //FIXME: add real userid here
+	include_once 'include_ars_db.php';
+	session_start();
+	$userid = $_SESSION['userid'];
 	if(isset($_POST['submit'])){
 		//get details of flight booked by from database store them in variables
 	}
+	$conn->close();
 ?>
 
 <html>
