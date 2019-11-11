@@ -5,7 +5,22 @@
 	for($j = 0; $j < $i; $j++){
 		if(isset($_POST[$j]){
 			if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == "yes"){
+				$uname = $_SESSION['userid'];
+				$plane_id = $_POST['plane_id'];
+				$dateofflight = $_POST['date'];
+				$src = $_POST['src'];
+				$dest = $_POST['dest'];
+				$dept_time = $_POST['depttime'];
+				$numofseat = $_POST['numofseats'];
+				$arr_time = $_POST['arrtime'];
 				
+				$q = "insert into userbooksflight values('$uname', '$plane_id', '$dateofflight', '$src', '$dest', '$dept_time', '$numofseats');";
+				$u = "update flight set passengers = passengers + '$numofseats' where plane_id = '$plane_id' and dateofflight = '$dateofflight' and src = '$src' and dest = '$dest' and dept_time = '$dept_time' and arr_time = '$arr_time';";
+				
+				$_SESSION['updateflightquery'] = $u;
+				$_SESSION['insertbook'] = $q;
+				
+				header("Location:http://localhost/myfiles/DBMSmp/payment.php");
 			}else{
 				header("Location:http://localhost/myfiles/DBMSmp/welcomepage.php");
 			}

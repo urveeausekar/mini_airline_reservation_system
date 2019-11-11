@@ -1,5 +1,6 @@
 <?php
 	
+	session_start();
 	require_once 'include_ars_db.php';
 	
 	//declaring variables for error checking
@@ -129,7 +130,12 @@
 		if(empty($_POST['card'])){
 			$cardNumerr = "Card number field cannot be left empty!";
 			$numoferr++;
+		}else if(!is_numeric($card)){
+				$cardNumerr = "Please enter valid card number consisting of only numbers";
+				$numoferr++;
+			}
 		}
+		
 		
 		
 		$dateofexp = $_POST['dateofexp'];
@@ -204,12 +210,16 @@
 					if($conn->query($insertc) == False)
 						$inserterr++;
 						
-					if($inserterr == 0)
+					if($inserterr == 0){
 						$success = "Congratulations! You have successfully signed up!";
+						$_SESSION['userid'] = $uname;
+						$_SESSION['loggedin'] = "yes";
+						$_SESSION['type'] = "user";
+					}
 				}
 			}
 			else{
-				$success = "Please choose another userid. The one that you hvae chosen has been taken.";
+				$success = "Please choose another userid. The one that you have chosen has been taken.";
 			}
 		}else{
 			$success = "Please enter all fields as per specifications";

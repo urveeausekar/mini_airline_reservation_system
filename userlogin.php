@@ -2,8 +2,25 @@
 	include_once 'include_ars_db.php';
 	session_start();
 	$userid = $_SESSION['userid'];
+	$st = " ";
 	if(isset($_POST['submit'])){
 		//get details of flight booked by from database store them in variables
+		$q = "select * from userbooksflight where user_id = '$userid';";
+		$res = $conn->query($q);
+		$i = 0;
+		
+		if($res){
+			while($row = $res->fetch_assoc()){
+				$i++;
+				$dest = "select airport_name, city, country form airport where a_id = $row[dest];";
+				$src = "select airport_name, city, country form airport where a_id = $row[src];";
+				$s = $conn->query($src);
+				$d = $conn->query($dest);
+				$source = $s->fetch_assoc();
+				$destination = $d->fetch_assoc();
+				$st = $st."<br>$i<br>"."plane_id = $row[plane_id]<br>date of flight = $row[dateofflight]<br> from $source[airport_name], $source[city], $source[country] <br> to  $destination[airport_name], $destination[city], $destination[country] <br> departure time = $row[dept_time] <br> number of seats is $row[numofseats].";
+			}
+		}
 	}
 	$conn->close();
 ?>
@@ -105,9 +122,13 @@
 				<!--user_id, plane_id, date, src, dest, src_country, dest_country, dept_time)-->
 				<a href = "browseflights.php">Browse Flights</a><br><br><br><br>
 				<form method = "POST">
-					<input type = "submit" name = "submit" value = "View booked flights">
+					<input type = "submit" name = "submit" value = "View booked flights"><br><br>
 				</form>
-				<?php //echo details of booked flights here  ?>
+				<?php echo $st;  ?>
+				
+				<a href = "logout.php">LOG OUT</a><br><br>
+				
+				<a href = "welcomepage.php">BACK TO HOMEPAGE</a><br>
 		  </div>
 		  <div class="column right" style="background-color:#000000;">
 		    

@@ -119,7 +119,7 @@
 		
 		//for insertion use prepared statements	
 		$findflights =  "select * from flight where src in(select a_id from airport where city = '$fromcity' and country = '$fromcountry') and dest in (select a_id from airport where city = '$tocity' and country = '$tocountry') and dateofflight = '$dateofflight';";
-		
+		//FIXME:see if number of seats are available and keep only one class of seats ie economy.
 		$res = $conn->query($findflights);
 		
 		if($res->num_rows == 0){
@@ -134,26 +134,28 @@
 			$fp = fopen("flights.php", "a");
 			if(!$fp)
 				echo"unable to write to file";
+			
+			$st0 = "<h3>Flights from $fromcity, $fromcountry to $tocity, $tocountry, on date $dateofflight :</h3>"."<br>";
 			while($i <= $res->num_rows) {
         			$row = $res->fetch_assoc();
         			$planeid = $row['plane_id'];
         			$depttime = $row['dept_time'];
         			$arrtime = $row['arr_time'];
-        			$costB = $row['cost_business'];
-        			$costE = $row['cost_economy'];
+        			$cost = $row['cost'];
+        			
         			$src = $row['src'];
         			$dest = $row['dest'];
         			
         			fwrite($fp,$i."<br>");
         			fwrite($fp, "-----------------------------------------------------------------------------"."<br>");
-        			$st1 = "PlaneID : <input style = 'border:none' type = 'text' name = 'plane_id' value = $row[plane_id] ><br><br>";
-        			$st2 = "Departure Time : <input style = 'border:none' type = 'text' name = 'depttime' value = $row[dept_time]><br><br>";
-        			$st3 = "Arrival Time : <input style = 'border:none' type = 'text' name = 'arrtime' value = $row[arr_time]><br><br>";
-        			$st4 = "Cost of Busines seats is Rs. $row[cost_business]. <br> Cost of economy seats is Rs. $row[cost_economy] .<br>";
+        			$st1 = "PlaneID : <input style = 'border:none' type = 'text' name = 'plane_id' value = $row[plane_id] readonly><br><br>";
+        			$st2 = "Departure Time : <input style = 'border:none' type = 'text' name = 'depttime' value = $row[dept_time] readonly><br><br>";
+        			$st3 = "Arrival Time : <input style = 'border:none' type = 'text' name = 'arrtime' value = $row[arr_time] readonly><br><br>";
+        			$st4 = "<input type = 'text' name = 'cost' value = $row[cost] readonly>";
         			$st5 = "<input type = 'hidden' name = 'src' value = $row[src]>";
         			$st6 = "<input type = 'hidden' name = 'dest' value = $row[dest]>";
-        			$st7 = "Economy :<input type = 'radio' name = 'rd' value = 'E'><br>";
-        			$st8 = "Business :<input type = 'radio' name = 'rd' value = 'B'><br>";
+        			$st7 = "<input type = 'hidden' name = 'numofseats' value = $number>";
+        			$st8 = "<input type = 'hidden' name = 'date' value = $dateofflight>";
         			$st9 = "<input type = 'submit' name = '$i' value = 'Book!'><br>";
         			/*echo $st1;
         			echo $st2;

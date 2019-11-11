@@ -127,20 +127,14 @@
 		}
 		
 		if(empty($ce)){
-			$ceerr = "Please fill cost for economy.";
+			$ceerr = "Please fill cost.";
 			$numoferr++;
 		}else if(!is_numeric($ce)){
 			$ceerr = "Please enter valid cost";
 			$numoferr++;
 		}
 		
-		if(empty($be)){
-			$beerr = "Please fill cost for business.";
-			$numoferr++;
-		}else if(!is_numeric($be)){
-			$beerr = "Please enter valid cost";
-			$numoferr++;
-		}
+		
 		
 		if(empty($sa)){
 			$saerr = "Please enter source airport name";
@@ -154,7 +148,7 @@
 		
 		if($numoferr == 0){
 			
-			$addf = "insert into flight values('$plane_id', '$dateofflight', (select a_id from airport where a_name ='$sa'), (select a_id from airport where a_name = '$da'), '$dept_time', '$arr_time', 0, 0, '$cb', '$ce')";
+			$addf = "insert into flight values('$plane_id', '$dateofflight', (select a_id from airport where a_name ='$sa'), (select a_id from airport where a_name = '$da'), '$dept_time', '$arr_time', 0,  '$ce')";
 			
 			$res = $conn->query($addf);
 			if($res)
@@ -300,8 +294,7 @@
 				<span class = "error"> <?php echo $ceerr; ?></span><br><br>
 				
 				
-				Cost_Business :<input type = "text" name = "be" value = '<?php echo htmlentities($be)?>'>
-				<span class = "error"> <?php echo $ceerr; ?></span><br><br>
+				
 				
 				SrcAirport:<input type = "text" name = "sa" value = '<?php echo htmlentities($sa)?>'>
 				<span class = "error"> <?php echo $saerr; ?></span><br><br>
