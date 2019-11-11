@@ -82,7 +82,7 @@
 		if(empty($number)){
 			$nerr = "Please enter number of tickets required";
 			$numoferr++;
-		}else if(!is_numeric($number) || int($number) < 0 ){
+		}else if(!is_numeric($number) || (int)$number < 0 ){
 			$nerr = "Please enter a valid positive integer.";
 			$numoferr++;
 		}
@@ -130,13 +130,13 @@
 			if(!copy($src, $dest)){
 				echo "Sorry, file not copied properly";
 			}
-			$i = 1;
+			$i = 0;
 			$fp = fopen("flights.php", "a");
 			if(!$fp)
 				echo"unable to write to file";
 			
 			$st0 = "<h3>Flights from $fromcity, $fromcountry to $tocity, $tocountry, on date $dateofflight :</h3>"."<br>";
-			while($i <= $res->num_rows) {
+			while($i < $res->num_rows) {
         			$row = $res->fetch_assoc();
         			$planeid = $row['plane_id'];
         			$depttime = $row['dept_time'];
@@ -156,7 +156,7 @@
         			$st6 = "<input type = 'hidden' name = 'dest' value = $row[dest]>";
         			$st7 = "<input type = 'hidden' name = 'numofseats' value = $number>";
         			$st8 = "<input type = 'hidden' name = 'date' value = $dateofflight>";
-        			$st9 = "<input type = 'submit' name = '$i' value = 'Book!'><br>";
+        			$st9 = "<br><input type = 'submit' name = '$i' value = 'Book!'><br>";
         			/*echo $st1;
         			echo $st2;
         			echo $st3;
@@ -179,7 +179,7 @@
         			$i++; 
         			fwrite($fp, "-----------------------------------------------------------------------------------"."<br><br>");
     			}
-    			$_SESSION['numberofflights'] = $i - 1;
+    			$_SESSION['numberofflights'] = $i;
     			
     			fclose($fp);
     			$file = 'flightssuffix.php';

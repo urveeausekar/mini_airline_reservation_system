@@ -133,8 +133,8 @@
 		}else if(!is_numeric($card)){
 				$cardNumerr = "Please enter valid card number consisting of only numbers";
 				$numoferr++;
-			}
 		}
+		
 		
 		
 		

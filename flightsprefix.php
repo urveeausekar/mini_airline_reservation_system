@@ -2,9 +2,13 @@
 	session_start();
 	include_once 'include_ars_db.php';
 	$i = $_SESSION['numberofflights'];
+	echo $i."value of i"."<br>";
 	for($j = 0; $j < $i; $j++){
-		if(isset($_POST[$j]){
+		echo "IN for"." ".$j."<br>";
+		if(isset($_POST[$j])){
+			echo"in isset post";
 			if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == "yes"){
+				echo "in logged in";
 				$uname = $_SESSION['userid'];
 				$plane_id = $_POST['plane_id'];
 				$dateofflight = $_POST['date'];
@@ -22,6 +26,7 @@
 				
 				header("Location:http://localhost/myfiles/DBMSmp/payment.php");
 			}else{
+				echo"in else";
 				header("Location:http://localhost/myfiles/DBMSmp/welcomepage.php");
 			}
 		}
