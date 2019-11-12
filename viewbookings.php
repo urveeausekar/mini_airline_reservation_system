@@ -1,6 +1,7 @@
 <?php
-	$adminid = " ";
-	
+	session_start();
+	$adminid = $_SESSION['userid'];
+	include_once 'include_ars_db.php';
 	$pliderr = " ";
 	$dateerr = " ";
 	$scityerr = " ";
@@ -84,7 +85,7 @@
 			$numoferr++;
 		}
 		else{
-			if(!preg_match('/^[a-zA-Z]*$/',$srccity)){
+			if(!preg_match('/^[a-zA-Z]*$/',$destcountry)){
 				$dconterr = "Please enter valid destination country name consisting of only alphabets";
 				$numoferr++;
 			}
@@ -121,7 +122,7 @@
 				}
 
 			}else if($rd1 == "checked"){
-				$q = "select sum(numofseats) as seats_booked from userbooksflight where plane_id= '$plane_id' and dateofflight = '$date' and dept_time = '$dept_time' and typeofseat = '$typeofseat';";
+				$q = "select sum(numofseats) as seats_booked from userbooksflight where plane_id= '$plane_id' and dateofflight = '$date' and dept_time = '$dept_time';";
 				$res = $conn->query($q);
 				if(!$res){
 					$row = $res->fetch_assoc();
