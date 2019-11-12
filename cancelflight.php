@@ -122,7 +122,7 @@
 		
 		
 		if($numoferr == 0){
-			$cancel_flight = "delete from flight where plane_id = '$plane_id' and src IN (select a_id from airport where a_name = '$srcap' and city = '$srccity' and country = '$srccountry' )  and dest IN(select a_id from airport where a_name '$destap' and city = '$destcity' and country = '$destcountry') and dateofflight = '$date' and dept_time = '$dept_time'";
+			$cancel_flight = "delete from flight where plane_id = '$plane_id' and src IN (select a_id from airport where a_name = '$srcap' and city = '$srccity' and country = '$srccountry' )  and dest IN(select a_id from airport where a_name = '$destap' and city = '$destcity' and country = '$destcountry') and dateofflight = '$date' and dept_time = '$dept_time'";
 			$res = $conn->query($cancel_flight);
 			if($res)
 				$notify = "Deletion Done!";

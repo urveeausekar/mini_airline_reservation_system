@@ -1,35 +1,50 @@
 <?php
-	include_once 'include_ars_db.php';
 	session_start();
-	$userid = $_SESSION['userid'];
-	$st = " ";
+	include_once 'include_ars_db.php';
+	
+	$accerr = " ";
+	
+	$acc = NULL;
+	$notify = " ";
+	$numoferr = 0;
 	if(isset($_POST['submit'])){
-		//get details of flight booked by from database store them in variables
-		$q = "select * from userbooksflight where user_id = '$userid';";
-		$res = $conn->query($q);
-		$i = 0;
-		
-		if($res){
-			while($row = $res->fetch_assoc()){
-				$i++;
-				$dest = "select a_name, city, country from airport where a_id = '$row[dest]';";
-				$src = "select a_name, city, country from airport where a_id = '$row[src]';";
-				$s = $conn->query($src);
-				$d = $conn->query($dest);
-				$source = $s->fetch_assoc();
-				$destination = $d->fetch_assoc();
-				$st = $st."<br>$i<br>"."Plane_id = $row[plane_id]<br>Date of flight = $row[dateofflight]<br> From $source[a_name], $source[city], $source[country] <br> To  $destination[a_name], $destination[city], $destination[country] <br> Departure time = $row[dept_time] <br> Number of seats is $row[numofseat].";
-			}
+		$acc = $_POST['acc'];
+		if(empty($_POST['acc'])){
+			$accerr = "Card number field cannot be left empty!";
+			$numoferr++;
+		}else if(!is_numeric($acc)){
+				$accerr = "Please enter valid card number consisting of only numbers";
+				$numoferr++;
 		}
+		
+		
+		$uname = $_SESSIONS['userid'];
+		
+		$q = "select card_number from userownscard where user_id = '$userid';";
+		$res = $conn->query($q);
+		if($res){
+			$row = $res->fetch_assoc();
+			if($acc == $row['card_number']){
+				
+				$res = $conn->query($_SESSION['insertbook']);
+				$res1 = $conn->query($_SESSION['updateflightquery']);
+				
+				if($res1 && $res)
+					$notify = "Bookings done!";
+			}
+				
+		}
+		
 	}
-	$conn->close();
 ?>
 
 <html>
 	<head>
 		<title>AirlineReservationSystem</title>
 		<style>
-		
+			.error{
+				color:#B30000;
+			}
 		
 			* {
 			  box-sizing: border-box;
@@ -37,11 +52,13 @@
 
 			.row{
 				text-align: center;
+				overflow: hidden;
+				display: flex;
 			}
 			.column {
 			  float: left;
 			  padding: 10px;
-			  height: 100%; 
+			   
 			}
 
 			.left, .right {
@@ -78,7 +95,7 @@
 				background-color: #808080;
 				margin-left: auto;
   				margin-right: auto;
-  				width : 200px;
+  				width : 450px;
   				border-style: solid;
 				border-width: 2px;
 				border-radius: 8px;
@@ -117,18 +134,23 @@
 		    
 		  </div>
 		  <div class="column middle" style="background-color:#ccc;">
-		  	<h1>HELLO @<?php echo $userid;?></h1>
+		  	<h1>PAYMENT PAGE</h1>
 				<br><br>
-				<!--user_id, plane_id, date, src, dest, src_country, dest_country, dept_time)-->
-				<a href = "browseflights.php">Browse Flights</a><br><br><br><br>
-				<form method = "POST">
-					<input type = "submit" name = "submit" value = "View booked flights"><br><br>
-				</form>
-				<?php echo $st;  ?>
+			<span class = "error">All</span> details must be entered.<br><br>	
+			<fieldset>
+			<form method = "POST">
 				
-				<br><br><a href = "logout.php">LOG OUT</a><br><br>
+				Account Number :<input type = "text" name = "acc"value ='<?php echo htmlentities($acc)?>'>
+				<span class = "error"> <?php echo $accerr; ?></span><br><br>
 				
-				<a href = "welcomepage.php">BACK TO HOMEPAGE</a><br>
+				<input type = "submit" name = "submit" value = "Pay!" ><br><br>
+			</form>
+			<h2><?php echo $notify;?></h2>
+			<br><br>
+			</fieldset>
+			<a href = "logout.php">LOG OUT</a><br><br>
+			<a href = "userlogin.php"> BACK TO USER PAGE</a><br><br>
+			<a href = "welcomepage.php">BACK TO HOMEPAGE</a><br>
 		  </div>
 		  <div class="column right" style="background-color:#000000;">
 		    

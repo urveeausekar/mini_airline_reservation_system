@@ -152,7 +152,8 @@
 		}
 		
 		if($numoferr == 0){
-			$cancel_booking = "delete from userbooksflight where user_id IN (select user_id from user where firstname = '$fname' and middlename = '$mname' and lastname = '$lname') and plane_id = '$plane_id' and dateofflight = '$date' and dept_time = '$dept_time' and src IN (select a_id from airport where a_name = '$srcap' and city = '$srccity' and country = '$srccountry' )  and dest IN(select a_id from airport where a_name '$destap' and city = '$destcity' and country = '$destcountry')";
+			//$cancel_booking = "delete from userbooksflight where user_id IN (select user_id from user where firstname = '$fname' and middlename = '$mname' and lastname = '$lname') and plane_id = '$plane_id' and dateofflight = '$date' and dept_time = '$dept_time' and src IN (select a_id from airport where a_name = '$srcap' and city = '$srccity' and country = '$srccountry' )  and dest IN(select a_id from airport where a_name '$destap' and city = '$destcity' and country = '$destcountry')";
+			$cancel_booking = "delete from userbooksflight where user_id IN (select user_id from user where firstname = '$fname' and middlename = '$mname' and lastname = '$lname') and plane_id = '$plane_id' and dateofflight = '$date' and dept_time = '$dept_time';";
 			$res = $conn->query($cancel_booking);
 			if($res)
 				$notify = "Deletion Done!";

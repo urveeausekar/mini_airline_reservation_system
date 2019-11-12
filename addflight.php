@@ -33,7 +33,7 @@
 	$dept_time = NULL;
 	$arr_time = NULL;
 	$ce = NULL;
-	$be = NULL;
+	
 	/*$fname = NULL;
 	$mname = NULL;
 	$lname = NULL;*/
@@ -50,7 +50,9 @@
 		$dept_time = $_POST['dept_time'];
 		$arr_time = $_POST['arr_time'];
 		$ce = $_POST['ce'];
-		$be = $_POST['be'];
+	
+		$sa = $_POST['sa'];
+		$da = $_POST['da'];
 		
 		if(empty($plane_id)){
 			$pliderr = "Can't leave plane id empty.";
@@ -60,7 +62,7 @@
 		if(empty($date)){
 			$dateerr = "Please fill date field.";
 			$numoferr++;
-		}else if(strlen($dateofflight) != 10){
+		}else if(strlen($date) != 10){
 			$dateerr = "Please enter date in the prescribed format only. Use '-' as a separator";
 			$numoferr++;
 		}
@@ -290,7 +292,7 @@
 				Arrival Time :<input type = "text" name = "arr_time"value ='<?php echo htmlentities($arr_time)?>'>
 				<span class = "error"> <?php echo $atimeerr; ?></span><br><br>
 				
-				Cost_Economy :<input type = "text" name = "ce" value = '<?php echo htmlentities($ce)?>'>
+				Cost :<input type = "text" name = "ce" value = '<?php echo htmlentities($ce)?>'>
 				<span class = "error"> <?php echo $ceerr; ?></span><br><br>
 				
 				

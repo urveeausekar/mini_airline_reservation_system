@@ -130,7 +130,7 @@
 		if(empty($_POST['card'])){
 			$cardNumerr = "Card number field cannot be left empty!";
 			$numoferr++;
-		}else if(!is_numeric($card)){
+		}else if(!is_numeric($cardNum)){
 				$cardNumerr = "Please enter valid card number consisting of only numbers";
 				$numoferr++;
 		}

@@ -51,7 +51,7 @@
 			$scityerr = "Please fill source city name.";
 			$numoferr++;
 		}else{
-			if(!preg_match('/^[a-zA-Z]*$/',$srccity)){
+			if(!preg_match('/^[a-zA-Z\s]*$/',$srccity)){
 				$scityerr = "Please enter valid source city name consisting of only alphabets";
 				$numoferr++;
 			}
@@ -61,7 +61,7 @@
 			$dcityerr = "Please fill destination city name.";
 			$numoferr++;
 		}else{
-			if(!preg_match('/^[a-zA-Z]*$/',$destcity)){
+			if(!preg_match('/^[a-zA-Z\s]*$/',$destcity)){
 				$dcityerr = "Please enter valid destinaion city name consisting of only alphabets";
 				$numoferr++;
 			}
@@ -112,7 +112,7 @@
 		
 		if($numoferr == 0){
 			if($rd2 == "checked"){
-				$q = "select * from user where user_id IN (select user_id from userbooksflight where plane_id = '$plane_id' and date = '$date' and dept_time = '$dept_time')";
+				$q = "select * from user where user_id IN (select user_id from userbooksflight where plane_id = '$plane_id' and dateofflight = '$date' and dept_time = '$dept_time')";
 				$res = $conn->query($q);
 				if(!$res){
 					while($row = $res->fetch_assoc()){
@@ -121,7 +121,7 @@
 				}
 
 			}else if($rd1 == "checked"){
-				$q = "select count(user_id) as seats_booked from userbooksflight where plane_id= '$plane_id' and date = '$date' and dept_time = '$dept_time' and typeofseat = '$typeofseat';";
+				$q = "select sum(numofseats) as seats_booked from userbooksflight where plane_id= '$plane_id' and dateofflight = '$date' and dept_time = '$dept_time' and typeofseat = '$typeofseat';";
 				$res = $conn->query($q);
 				if(!$res){
 					$row = $res->fetch_assoc();
