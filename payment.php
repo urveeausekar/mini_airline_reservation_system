@@ -18,21 +18,28 @@
 		}
 		
 		
-		$uname = $_SESSIONS['userid'];
-		
-		$q = "select card_number from userownscard where user_id = '$userid';";
-		$res = $conn->query($q);
-		if($res){
-			$row = $res->fetch_assoc();
-			if($acc == $row['card_number']){
-				
-				$res = $conn->query($_SESSION['insertbook']);
-				$res1 = $conn->query($_SESSION['updateflightquery']);
-				
-				if($res1 && $res)
-					$notify = "Bookings done!";
+		$uname = $_SESSION['userid'];
+		if($numoferr == 0){
+			$q = "select card_number from userownscard where user_id = '$uname';";
+			$res = $conn->query($q);
+			if($res){
+				//echo "card query run";
+				$row = $res->fetch_assoc();
+				if($acc == $row['card_number']){
+					//echo "card num matches";
+					$res = $conn->query($_SESSION['insertbook']);
+					//echo $_SESSION['insertbook'];
+					//echo $_SESSION['updateflightquery'];
+					$res1 = $conn->query($_SESSION['updateflightquery']);
+					
+					if($res1 && $res)
+						$notify = "Bookings done!";
+					else
+						$notify = "Sorry, we have experienced an internal error. Bookings not done.";
+				}
+					
 			}
-				
+		
 		}
 		
 	}
@@ -145,7 +152,7 @@
 				
 				<input type = "submit" name = "submit" value = "Pay!" ><br><br>
 			</form>
-			<h2><?php echo $notify;?></h2>
+			<h2><?php echo $notify; ?></h2>
 			<br><br>
 			</fieldset>
 			<a href = "logout.php">LOG OUT</a><br><br>

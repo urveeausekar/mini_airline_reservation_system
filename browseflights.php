@@ -311,14 +311,15 @@
 		  		<span class = "error"> <?php echo $derr; ?> </span><br><br>
 		  		
 		  		Number of tickets wanted : <input type = "text" name = "number" value ='<?php echo htmlentities($number) ?> '>
-		  		
-		  		<input type = "submit" name = "submit" value = "Submit!">
 		  		<br>
+		  		<input type = "submit" name = "submit" value = "Submit!">
+		  		<br><br><br>
 		  		<?php echo $notification;?>
 		  		
 		  	</form>
 			</fieldset>
-			
+			<br><br><a href = "welcomepage.php">LOG IN or SIGN UP</a>
+			<br><br><a href = "logout.php">LOG OUT</a>
 		   
 		  </div>
 		  <div class="column right" style="background-color:#000000;">

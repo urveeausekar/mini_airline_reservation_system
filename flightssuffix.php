@@ -1,4 +1,4 @@
-		
+		<br><br><br><a href = "welcomepage.php">LOG IN or SIGN UP</a>
 		</form>
 		</div>
 		  <div class="column right" style="background-color:#000000;">

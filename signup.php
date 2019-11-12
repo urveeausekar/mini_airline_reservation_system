@@ -392,6 +392,8 @@
 			</form>
 		   	<a href = "browseflights.php">BROWSE FLIGHTS</a><br><br>
 		   	<a href = "welcomepage.php">BACK TO WELCOME PAGE</a>
+		   	<a href = "logout.php">LOG OUT</a><br><br>
+		   	<a href = "userlogin.php" >GO TO YOUR HOME PAGE</a><br><br>
 		  </div>
 		  <div class="column right" style="background-color:#000000;">
 		    

@@ -2,20 +2,20 @@
 	session_start();
 	include_once 'include_ars_db.php';
 	$i = $_SESSION['numberofflights'];
-	echo $i."value of i"."<br>";
+	//echo $i."value of i"."<br>";
 	for($j = 0; $j < $i; $j++){
-		echo "IN for"." ".$j."<br>";
+		//echo "IN for"." ".$j."<br>";
 		if(isset($_POST[$j])){
 			echo"in isset post";
 			if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == "yes"){
-				echo "in logged in";
+				//echo "in logged in";
 				$uname = $_SESSION['userid'];
 				$plane_id = $_POST['plane_id'];
 				$dateofflight = $_POST['date'];
 				$src = $_POST['src'];
 				$dest = $_POST['dest'];
 				$dept_time = $_POST['depttime'];
-				$numofseat = $_POST['numofseats'];
+				$numofseats = $_POST['numofseats'];
 				$arr_time = $_POST['arrtime'];
 				
 				$q = "insert into userbooksflight values('$uname', '$plane_id', '$dateofflight', '$src', '$dest', '$dept_time', '$numofseats');";

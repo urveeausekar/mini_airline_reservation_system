@@ -112,7 +112,7 @@
 				<a href = "cancelflight.php">Cancel A Flight</a><br><br><br><br>
 				<a href = "addflight.php">Add A Flight</a><br><br><br><br>
 				<a href = "addadmin.php">Add Another Admin</a><br><br><br><br>
-			
+				<a href = "logout.php">LOG OUT</a><br><br>
 		  </div>
 		  <div class="column right" style="background-color:#000000;">
 		    
