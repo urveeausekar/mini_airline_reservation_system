@@ -115,16 +115,18 @@
 			if($rd2 == "checked"){
 				$q = "select * from user where user_id IN (select user_id from userbooksflight where plane_id = '$plane_id' and dateofflight = '$date' and dept_time = '$dept_time')";
 				$res = $conn->query($q);
-				if(!$res){
+				if($res){
+					$result = "<b><fieldset><br><br><h2>Passengers are:</h2>";
 					while($row = $res->fetch_assoc()){
-						$result = $result." ".$row['fname']." ".$row['mname']." ".$row['lname']."<br><br>";
+						$result = $result." ".$row['firstname']." ".$row['middlename']." ".$row['lastname']." : userid = ". $row['user_id']."<br><br>";
 					}
+					$result = $result."</fieldset></b><br><br>";
 				}
 
 			}else if($rd1 == "checked"){
-				$q = "select sum(numofseats) as seats_booked from userbooksflight where plane_id= '$plane_id' and dateofflight = '$date' and dept_time = '$dept_time';";
+				$q = "select sum(numofseat) as seats_booked from userbooksflight where plane_id = '$plane_id' and dateofflight = '$date' and dept_time = '$dept_time';";
 				$res = $conn->query($q);
-				if(!$res){
+				if($res){
 					$row = $res->fetch_assoc();
 					$output1 = $row['seats_booked'];
 					$result = "The number of seats booked is $output1";
