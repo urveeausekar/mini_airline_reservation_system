@@ -21,13 +21,15 @@
 
 			.row{
 				text-align: center;
+				overflow: hidden;
+				display: flex;
 				/*overflow: hidden;
 				display: flex;*/
 			}
 			.column {
 			  float: left;
 			  padding: 10px;
-			  height: 100%;
+			  
 			   
 			}
 
@@ -112,6 +114,7 @@
 				<a href = "cancelflight.php">Cancel A Flight</a><br><br><br><br>
 				<a href = "addflight.php">Add A Flight</a><br><br><br><br>
 				<a href = "addadmin.php">Add Another Admin</a><br><br><br><br>
+				<a href = "viewallflights.php">View all flights</a><br><br><br><br>
 				<a href = "logout.php">LOG OUT</a><br><br>
 		  </div>
 		  <div class="column right" style="background-color:#000000;">

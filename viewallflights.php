@@ -3,25 +3,28 @@
 	session_start();
 	$userid = $_SESSION['userid'];
 	$st = " ";
-	if(isset($_POST['submit'])){
-		//get details of flight booked by from database store them in variables
-		$q = "select * from userbooksflight where user_id = '$userid';";
-		$res = $conn->query($q);
-		$i = 0;
-		
-		if($res){
-			while($row = $res->fetch_assoc()){
-				$i++;
-				$dest = "select a_name, city, country from airport where a_id = '$row[dest]';";
-				$src = "select a_name, city, country from airport where a_id = '$row[src]';";
-				$s = $conn->query($src);
-				$d = $conn->query($dest);
-				$source = $s->fetch_assoc();
-				$destination = $d->fetch_assoc();
-				$st = $st."<br>$i<br>"."<table><tr><td>Plane_id </td><td> $row[plane_id]</td></tr><tr><td>Date of flight </td><td> $row[dateofflight]</td></tr><tr><td> From</td><td> $source[a_name], $source[city], $source[country] </td></tr><tr><td> To </td><td> $destination[a_name], $destination[city], $destination[country] </td></tr><tr><td> Departure time </td><td> $row[dept_time] </td></tr><tr><td> Number of seats </td><td> $row[numofseat]</td></tr></table>";
-			}
+
+	//get details of flight from database store them in variables
+	$q = "select * from flight;";
+	$res = $conn->query($q);
+	$i = 0;
+	
+	if($res){
+		while($row = $res->fetch_assoc()){
+			$i++;
+			$dest = "select a_name, city, country from airport where a_id = '$row[dest]';";
+			$src = "select a_name, city, country from airport where a_id = '$row[src]';";
+			$capa = "select tot_capacity from airplane where plane_id = '$row[plane_id]';";
+			$s = $conn->query($src);
+			$d = $conn->query($dest);
+			$c = $conn->query($capa);
+			$capacity = $c->fetch_assoc();
+			$source = $s->fetch_assoc();
+			$destination = $d->fetch_assoc();
+			$st = $st."<br>$i<br>"."<table><tr><td>Plane_id </td><td> $row[plane_id]</td></tr><tr><td>Date of flight </td><td> $row[dateofflight]</td></tr><tr><td> From</td><td> $source[a_name], $source[city], $source[country] </td></tr><tr><td> To </td><td> $destination[a_name], $destination[city], $destination[country] </td></tr><tr><td> Departure time </td><td> $row[dept_time] </td></tr><tr><td> Capacity</td><td> $capacity[tot_capacity]</td><tr><td> Number of passengers </td><td> $row[passengers]</td></tr><tr><td>Cost</td><td> $row[cost]</td></tr></table>";
 		}
 	}
+	
 	$conn->close();
 ?>
 
@@ -125,16 +128,11 @@
 		  </div>
 		  <div class="column middle" style="background-color:#ccc;">
 		  	<h1>HELLO @<?php echo $userid;?></h1>
-				<br><br>
-				<!--user_id, plane_id, date, src, dest, src_country, dest_country, dept_time)-->
-				<a href = "browseflights.php">Browse Flights</a><br><br><br><br>
-				<form method = "POST">
-					<input type = "submit" name = "submit" value = "View booked flights"><br><br>
-				</form>
+				
 				<?php echo $st;  ?>
 				
 				<br><br><a href = "logout.php">LOG OUT</a><br><br>
-				
+				<br><br><a href = "adminlogin.php">BACK TO ADMIN LOGIN</a><br><br>
 				<a href = "welcomepage.php">BACK TO HOMEPAGE</a><br>
 		  </div>
 		  <div class="column right" style="background-color:#000000;">
