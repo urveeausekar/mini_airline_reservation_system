@@ -1,11 +1,12 @@
-Project Title : Airline Reservation System
+# Airline Tickets Reservation System
 
-Languages Used : mysql , php, html
+Tech Stack : mysql, PHP, HTML, CSS, Apache
 
-Description : Here we will implement the front end using php, html, css and backend 
-using mysql database
+Description : This is a simulated airline tickets reservation system implemented as a course project
+              for Fall 2019 DBMS course. The front end is written using php, html, css and the database
+              used is mysql. It uses the Apache server.
 
-Expected Functions : 
+Functions : 
 
 	User will be able to sign up and login. User should sign up to avail entire functionality in website.
 	User should log in before making bookings. User can view available flights while not being logged in, but cannot 
