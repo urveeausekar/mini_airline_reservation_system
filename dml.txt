@@ -1,0 +1,65 @@
+insert into airport values ("india1", "Vishakhapattanam airport", "Vishakhapattanam", "India");
+insert into airport values ("india2", "Swami Vivekananda airport", "Raipur", "India");
+insert into airport values("india3", "Chhatrapati Shivaji airport", "Mumbai", "India");
+insert into airport values("india4", "Pune airport", "Pune", "India");
+insert into airport values("india5", "Indira Gandhi airport", "Delhi", "India");
+insert into airport values("india6", "Dr.Babasaheb Ambedkar airport", "Nagpur", "India");
+insert into airport values("us1", "John F. Kennedy airport", "New York", "US");
+insert into airport values("us2", "Philadelphia International Airport", "Philadelphia", "US");
+insert into airport values("us3", "Seattle-Tacoma International Airport", "Seattle", "US");
+insert into airport values("us4", "Los Angeles International Airport", "Los Angeles", "US");
+insert into airport values("us5", "New York Stewart International Airport", "New York", "US");
+insert into airport values("uk1", "London City Airport", "London", "UK");
+insert into airport values("uk2", "London Oxford Airport", "Oxford", "UK");
+insert into airport values("uae1", "Al Ain International Airport", "Abu Dhabi", "UAE");
+insert into airport values("uae2", "Dubai International Airport", "Dubai", "UAE");
+insert into airport values("uae3", "Al Hamra Airport", "Abu Dhabi", "UAE");
+insert into airport values("germany1", "Frankfurt Airport", "Frankfurt", "Germany");
+insert into airport values("germany2", "Berlin Brandenburg International Airport", "Berlin", "Germany");
+insert into airport values("germany3", "Munich International Airport", "Munich", "Germany");
+insert into airport values("russia1", "Sheremetyevo - A.S. Pushkin international airport", "Moscow", "Russia");
+insert into airport values("russia2", "Domodedovo Moscow Airport", "Moscow", "Russia");
+insert into airport values("cn1", "Thunder Bay International Airport", "Ontario", "Canada");
+insert into airport valueS("cn2", "Canadian Rockies International Airport", "British Columbia", "Canada");
+
+insert into airplane values("emirates1", 200, 50, 150);
+insert into airplane values("emirates2", 250, 75, 175);
+insert into airplane values("luftansa1", 150, 50, 100);
+insert into airplane values("luftansa2", 180, 50, 130);
+insert into airplane values("emirates3", 100, 25, 75);
+insert into airplane values("luftansa3", 85, 20, 65);
+insert into airplane values("indigo1", 100, 20, 80);
+insert into airplane values("airindia1", 100, 25, 75);
+insert into airplane values("airbus1", 300, 75, 225);
+
+insert into flight values("emirates1", "2019-01-01", "india3", "uae1",  "12:00:00", "15:00:00",0, 0, 10000.000, 6000.000);
+insert into flight values("indigo1", "2019-01-01", "india5", "us5", "01:30:00", "06:00:00", 0, 0, 50000.000, 35000.000);
+insert into flight values("airindia1", "2019-01-01", "india6", "india4","05:00:00", "06:30:00",0, 0, 8000.000, 5000.000);
+insert into flight values("emirates2", "2019-01-02", "germany1", "russia1",  "10:00:00", "03:15:00", 0, 0, 9500.000, 6000.000);
+insert into flight values("luftansa1", "2019-01-03", "india5", "cn1", "00:30:00","15:30:00", 0, 0, 80000.000, 50000.000);
+insert into flight values("luftansa3", "2019-01-04", "india4", "uk1", "05:55:00", "20:00:00", 0, 0, 50000.000, 25000.000);
+insert into flight values("airbus1", "2019-01-01", "us3", "cn2",  "02:00:00", "05:30:00", 0, 0, 10000.000, 4500.000);
+insert into flight values("indigo1", "2019-01-02", "germany3", "india3",  "07:20:00", "14:50:00", 0, 0, 80000.000, 45000.000);
+
+
+insert into user values("u1", "xyz", "lmn", "abc", "abcxyz@gmail.com", 1234567890, "shivaji nagar", "Pune", "India");
+insert into user values("u2", "pqr", "stu", "vwx", "pqr@gmail.com", 0987654321, "bandra east", "Mumbai", "India");
+
+
+insert into route_via values("emirates1", "india3", 0, NULL, "12:00:00");             //error unknown time_out
+insert into route_via values("emirates1", "india5", 1, "3:30:00", "4:00:00");
+insert into route_via values("emirates1", "uae1", 2, "15:00:00", NULL);
+insert into route_via values("indigo1", "india5", 0, NULL, "01:30:00");
+insert into route_via values("indigo1", "us5", 1, "06:00:00", NULL);
+insert into route_via values("airindia1", "india6", 0, NULL, "05:00:00");
+insert into route_via values("airindia1", "india4", 1, "06:30:00", NULL);
+insert into route_via values("emirates2", "germany1", 0, NULL, "10:00:00");
+insert into route_via values("emirates2", "germany2", 1, "12:00:00", "12:30:00");
+insert into route_via values("emirates2", "russia1", 2, "03:15:00", NULL);
+
+
+insert into userownscard values("u1", 0987654321123456, "Debit", "2025-09-10");
+insert into userownscard values("u2", 1234567890098765, "Credit", "2027-10-20");
+
+
+ 
