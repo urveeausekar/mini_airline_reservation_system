@@ -34,6 +34,7 @@ Functions :
 		-We have validated and escaped input provided by user for proper functioning of database.
 		
 Files :
+
 	1) ddl.txt and dml.txt contain SQL statements that build and populate the database with initial data
 	2) queries.txt contain SQL queries to read and write the database based on user input
 	3) The PHP files have names that describe their functions.
